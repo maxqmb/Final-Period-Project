@@ -2,7 +2,6 @@
 <template>
   <main id="projects" aria-label="Projects">
     <section class="projects-hero">
-      <!-- NEW: Unique animated background -->
       <div class="hero-bg" aria-hidden="true">
         <canvas class="hero-canvas" ref="heroCanvas"></canvas>
         <div class="hero-vignette"></div>
@@ -22,8 +21,6 @@
           From pixel-perfect interfaces to full ordering flows, this is where ideas stop being ideas.
         </p>
       </div>
-      <div class="hero-orb" aria-hidden="true"></div>
-      <div class="hero-orb hero-orb-2" aria-hidden="true"></div>
     </section>
 
     <section class="projects-list">
@@ -34,16 +31,12 @@
         :aria-label="'Project: ' + proj.name"
         ref="projectEntries"
       >
-        <!-- Horizontal rule with index -->
         <div class="entry-rule">
           <span class="rule-num">{{ String(i + 1).padStart(2, '0') }}</span>
           <div class="rule-line"></div>
         </div>
 
-        <!-- Main project grid: left info col, right screenshots col -->
         <div class="project-grid">
-
-          <!-- LEFT: info -->
           <div class="project-info">
             <div class="project-title-wrap">
               <h2 class="project-title">{{ proj.name }}</h2>
@@ -79,7 +72,6 @@
             </div>
           </div>
 
-          <!-- RIGHT: screenshots -->
           <div class="project-screenshots">
             <div class="screenshot screenshot-main" @mouseenter="onSsHover" @mouseleave="onSsLeave">
               <img v-if="proj.id === 1" src="/assets/projects/buffs-chicken1.png" alt="Buffs Chicken preview" class="screenshot-img screenshot-img--main" />
@@ -103,7 +95,6 @@
               </div>
             </div>
           </div>
-
         </div>
       </article>
     </section>
@@ -113,7 +104,6 @@
 <script setup>
 import { onMounted, onBeforeUnmount, ref } from 'vue'
 
-const projectEntries = ref([])
 const heroCanvas = ref(null)
 let animFrame = null
 
@@ -121,7 +111,7 @@ const projects = [
   {
     id: 1, name: 'Buffs Chicken',
     desc: 'A full-featured ordering and business website for Buffs Chicken, a local restaurant brand. Customers can browse the menu, place orders, and explore the brand story — all in one seamless experience.',
-    features: 'Includes an interactive menu with category filters, an online ordering flow, business information pages, and a mobile-responsive layout built to reflect the restaurant\'s bold identity.',
+    features: "Includes an interactive menu with category filters, an online ordering flow, business information pages, and a mobile-responsive layout built to reflect the restaurant's bold identity.",
     tags: ['HTML', 'CSS', 'JavaScript', 'Tailwind'],
     demo: '#', github: '#',
   },
@@ -149,155 +139,99 @@ const projects = [
 ]
 
 function onSsHover(e) {
-  const el = e.currentTarget
-  el.querySelector('.screenshot-shimmer').style.opacity = '1'
+  e.currentTarget.querySelector('.screenshot-shimmer').style.opacity = '1'
 }
 function onSsLeave(e) {
-  const el = e.currentTarget
-  el.querySelector('.screenshot-shimmer').style.opacity = '0'
+  e.currentTarget.querySelector('.screenshot-shimmer').style.opacity = '0'
 }
 
-// ─── UNIQUE CANVAS ANIMATION ────────────────────────────────
-// Liquid ink-thread particles: glowing crimson threads that drift,
-// connect when close, and pulse like a living circuit board.
+// ─── SOFT BREATHING GRADIENT ─────────────────────────────────────────────────
+// Three large radial blobs slowly drift and pulse. Each blob moves on its own
+// sine/cosine path with independent timing so they never feel repetitive.
+// Colors stay within the brand palette so nothing looks out of place.
+// The whole thing is calm enough to never fight with the content.
+// ─────────────────────────────────────────────────────────────────────────────
 function initCanvas() {
   const canvas = heroCanvas.value
   if (!canvas) return
   const ctx = canvas.getContext('2d')
+  let W, H, t = 0
 
-  const PARTICLE_COUNT = 55
-  const CONNECTION_DIST = 130
-  const COLOR_PRIMARY = '127,1,31'
-  const COLOR_GOLD = '200,160,80'
-
-  let W, H, particles
+  // Blobs: anchor (% of canvas), drift radius (% of canvas), color, alpha range, timing
+  const blobs = [
+    {
+      ax: 0.80, ay: 0.90,       // anchor: bottom-right
+      dx: 0.12, dy: 0.10,       // drift range
+      rFactor: 0.60,            // radius as fraction of min(W,H)
+      color: [127, 1, 31],      // brand crimson
+      minA: 0.14, maxA: 0.24,
+      phaseOffset: 0,
+      speed: 0.00042,
+    },
+    {
+      ax: 0.15, ay: 0.18,       // anchor: top-left
+      dx: 0.09, dy: 0.11,
+      rFactor: 0.50,
+      color: [155, 50, 12],     // burnt amber
+      minA: 0.07, maxA: 0.15,
+      phaseOffset: Math.PI * 0.75,
+      speed: 0.00036,
+    },
+    {
+      ax: 0.50, ay: 0.00,       // anchor: top-center (bleeds off edge)
+      dx: 0.16, dy: 0.07,
+      rFactor: 0.38,
+      color: [185, 120, 40],    // warm gold
+      minA: 0.04, maxA: 0.10,
+      phaseOffset: Math.PI * 1.5,
+      speed: 0.00055,
+    },
+  ]
 
   function resize() {
-    W = canvas.width = canvas.offsetWidth
+    W = canvas.width  = canvas.offsetWidth
     H = canvas.height = canvas.offsetHeight
   }
 
-  class Particle {
-    constructor() { this.reset(true) }
-    reset(init) {
-      this.x = Math.random() * W
-      this.y = init ? Math.random() * H : (Math.random() < 0.5 ? -10 : H + 10)
-      this.vx = (Math.random() - 0.5) * 0.45
-      this.vy = (Math.random() - 0.5) * 0.45
-      this.r = Math.random() * 1.6 + 0.5
-      this.pulse = Math.random() * Math.PI * 2
-      this.pulseSpeed = 0.012 + Math.random() * 0.018
-      this.gold = Math.random() < 0.12
-    }
-    update() {
-      this.x += this.vx
-      this.y += this.vy
-      this.pulse += this.pulseSpeed
-      // Soft boundary bounce
-      if (this.x < 0 || this.x > W) this.vx *= -1
-      if (this.y < 0 || this.y > H) this.vy *= -1
-    }
-    draw() {
-      const glow = (Math.sin(this.pulse) + 1) / 2
-      const alpha = 0.35 + glow * 0.55
-      const col = this.gold ? COLOR_GOLD : COLOR_PRIMARY
-      // Outer glow
-      const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r * 5)
-      grad.addColorStop(0, `rgba(${col},${(alpha * 0.7).toFixed(2)})`)
-      grad.addColorStop(1, `rgba(${col},0)`)
-      ctx.beginPath()
-      ctx.arc(this.x, this.y, this.r * 5, 0, Math.PI * 2)
-      ctx.fillStyle = grad
-      ctx.fill()
-      // Core dot
-      ctx.beginPath()
-      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2)
-      ctx.fillStyle = `rgba(${col},${alpha.toFixed(2)})`
-      ctx.fill()
-    }
-  }
+  function drawBlob(b) {
+    const phase = t * b.speed + b.phaseOffset
 
-  function init() {
-    resize()
-    particles = Array.from({ length: PARTICLE_COUNT }, () => new Particle())
-  }
+    // Position: two independent sine waves per axis for organic drift
+    const x = (b.ax + Math.sin(phase)        * b.dx) * W
+    const y = (b.ay + Math.cos(phase * 0.71) * b.dy) * H
 
-  function drawConnections() {
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const a = particles[i], b = particles[j]
-        const dx = a.x - b.x, dy = a.y - b.y
-        const dist = Math.sqrt(dx * dx + dy * dy)
-        if (dist < CONNECTION_DIST) {
-          const strength = 1 - dist / CONNECTION_DIST
-          const pulseA = (Math.sin(a.pulse) + 1) / 2
-          const pulseB = (Math.sin(b.pulse) + 1) / 2
-          const pulse = (pulseA + pulseB) / 2
-          const alpha = (strength * 0.22 + pulse * strength * 0.18).toFixed(3)
-          const col = (a.gold || b.gold) ? COLOR_GOLD : COLOR_PRIMARY
+    // Radius breathes very gently
+    const r = b.rFactor * Math.min(W, H) * (1 + Math.sin(phase * 1.2) * 0.06)
 
-          // Draw the thread with a slight glow
-          ctx.beginPath()
-          ctx.moveTo(a.x, a.y)
-          // Add a subtle bezier curve for organic feel
-          const mx = (a.x + b.x) / 2 + (Math.sin(a.pulse * 0.7) * 8)
-          const my = (a.y + b.y) / 2 + (Math.cos(b.pulse * 0.7) * 8)
-          ctx.quadraticCurveTo(mx, my, b.x, b.y)
-          ctx.strokeStyle = `rgba(${col},${alpha})`
-          ctx.lineWidth = strength * 1.1 + pulse * 0.6
-          ctx.stroke()
-        }
-      }
-    }
-  }
+    // Alpha breathes between min and max on a slightly different cycle
+    const aPhase = (Math.sin(phase * 0.85 + 0.4) + 1) / 2
+    const alpha  = b.minA + aPhase * (b.maxA - b.minA)
 
-  // Occasional "spark" bursts along connections
-  const sparks = []
-  function maybeSpark() {
-    if (Math.random() < 0.025 && particles.length > 1) {
-      const a = particles[Math.floor(Math.random() * particles.length)]
-      const b = particles[Math.floor(Math.random() * particles.length)]
-      const dx = a.x - b.x, dy = a.y - b.y
-      if (Math.sqrt(dx*dx+dy*dy) < CONNECTION_DIST) {
-        sparks.push({ a, b, t: 0, gold: Math.random() < 0.3 })
-      }
-    }
-  }
+    const [rv, gv, bv] = b.color
+    const grad = ctx.createRadialGradient(x, y, 0, x, y, r)
+    grad.addColorStop(0,   `rgba(${rv},${gv},${bv},${alpha.toFixed(3)})`)
+    grad.addColorStop(0.45,`rgba(${rv},${gv},${bv},${(alpha * 0.45).toFixed(3)})`)
+    grad.addColorStop(1,   `rgba(${rv},${gv},${bv},0)`)
 
-  function drawSparks() {
-    for (let i = sparks.length - 1; i >= 0; i--) {
-      const s = sparks[i]
-      s.t += 0.035
-      if (s.t > 1) { sparks.splice(i, 1); continue }
-      const x = s.a.x + (s.b.x - s.a.x) * s.t
-      const y = s.a.y + (s.b.y - s.a.y) * s.t
-      const alpha = Math.sin(s.t * Math.PI)
-      const col = s.gold ? COLOR_GOLD : COLOR_PRIMARY
-      ctx.beginPath()
-      ctx.arc(x, y, 2.5, 0, Math.PI * 2)
-      ctx.fillStyle = `rgba(${col},${(alpha * 0.9).toFixed(2)})`
-      ctx.fill()
-    }
+    ctx.beginPath()
+    ctx.arc(x, y, r, 0, Math.PI * 2)
+    ctx.fillStyle = grad
+    ctx.fill()
   }
 
   function loop() {
+    t++
     ctx.clearRect(0, 0, W, H)
-    maybeSpark()
-    ctx.lineJoin = 'round'
-    ctx.lineCap = 'round'
-    drawConnections()
-    drawSparks()
-    particles.forEach(p => { p.update(); p.draw() })
+    blobs.forEach(drawBlob)
     animFrame = requestAnimationFrame(loop)
   }
 
   window.addEventListener('resize', resize)
-  init()
+  resize()
   loop()
 }
 
 onMounted(() => {
-  // Scroll reveal
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -308,7 +242,6 @@ onMounted(() => {
   }, { threshold: 0.1 })
   document.querySelectorAll('.project-entry').forEach(el => observer.observe(el))
 
-  // Canvas animation
   initCanvas()
 })
 
@@ -318,7 +251,7 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-/* ─── RESET & ROOT ────────────────────────────────────────── */
+/* ─── ROOT ────────────────────────────────────────────────── */
 #projects {
   background: var(--warm-white);
   overflow: hidden;
@@ -332,7 +265,7 @@ onBeforeUnmount(() => {
   overflow: hidden;
 }
 
-/* ─── NEW CANVAS BACKGROUND ───────────────────────────────── */
+/* ─── CANVAS BACKGROUND ───────────────────────────────────── */
 .hero-bg {
   position: absolute;
   inset: 0;
@@ -347,41 +280,18 @@ onBeforeUnmount(() => {
   display: block;
 }
 
-/* Soft vignette so canvas doesn't bleed into edges harshly */
+/* Edge vignette keeps the blobs contained and the section grounded */
 .hero-vignette {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse 60% 60% at 100% 100%, rgba(127,1,31,0.18) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 40% at 0% 0%, rgba(30,20,15,0.6) 0%, transparent 70%),
-    linear-gradient(180deg, transparent 50%, rgba(24,18,14,0.55) 100%);
+  background: radial-gradient(
+    ellipse 100% 100% at 50% 50%,
+    transparent 35%,
+    rgba(24, 18, 14, 0.60) 100%
+  );
 }
 
-.hero-orb {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  animation: orbPulse 8s ease-in-out infinite;
-}
-
-.hero-orb:first-of-type {
-  bottom: -100px; right: -100px;
-  width: 420px; height: 420px;
-  background: radial-gradient(circle, rgba(127,1,31,0.22) 0%, transparent 70%);
-}
-
-.hero-orb-2 {
-  top: -60px; left: 40%;
-  width: 260px; height: 260px;
-  background: radial-gradient(circle, rgba(200,160,80,0.08) 0%, transparent 70%);
-  animation-delay: -4s;
-}
-
-@keyframes orbPulse {
-  0%, 100% { transform: scale(1); opacity: 0.8; }
-  50%       { transform: scale(1.1); opacity: 1; }
-}
-
+/* ─── CONTENT ─────────────────────────────────────────────── */
 .hero-content { position: relative; z-index: 1; }
 
 .page-eyebrow {
@@ -399,7 +309,8 @@ onBeforeUnmount(() => {
 
 .eyebrow-line {
   display: block;
-  width: 32px; height: 1px;
+  width: 32px;
+  height: 1px;
   background: var(--gold-light);
 }
 
@@ -417,13 +328,12 @@ onBeforeUnmount(() => {
   color: var(--cream);
   margin-bottom: 28px;
   display: flex;
-  /* ↓ TIGHTER gap between Pro and jects */
   gap: 0.04em;
 }
 
 .title-italic {
   font-style: italic;
-  color: rgba(245,235,208,0.45);
+  color: rgba(245, 235, 208, 0.45);
 }
 
 .projects-intro {
@@ -434,15 +344,14 @@ onBeforeUnmount(() => {
 }
 
 /* ─── PROJECT LIST ────────────────────────────────────────── */
-.projects-list {
-  padding: 0 80px 100px;
-}
+.projects-list { padding: 0 80px 100px; }
 
-/* ─── SCROLL ANIMATION ────────────────────────────────────── */
 .project-entry {
   opacity: 0;
   transform: translateY(40px);
-  transition: opacity 0.7s cubic-bezier(.22,.68,0,1.2), transform 0.7s cubic-bezier(.22,.68,0,1.2);
+  transition:
+    opacity  0.7s cubic-bezier(.22,.68,0,1.2),
+    transform 0.7s cubic-bezier(.22,.68,0,1.2);
   padding: 72px 0;
   border-bottom: 1px solid rgba(127,1,31,0.08);
 }
@@ -490,7 +399,7 @@ onBeforeUnmount(() => {
 }
 
 @keyframes shimmerRule {
-  0%   { transform: translateX(-100%); }
+  0%        { transform: translateX(-100%); }
   50%, 100% { transform: translateX(100%); }
 }
 
@@ -502,16 +411,13 @@ onBeforeUnmount(() => {
   align-items: start;
 }
 
-/* ─── LEFT INFO ───────────────────────────────────────────── */
 .project-info {
   display: flex;
   flex-direction: column;
   gap: 28px;
 }
 
-.project-title-wrap {
-  overflow: hidden;
-}
+.project-title-wrap { overflow: hidden; }
 
 .project-title {
   font-family: var(--font-upright);
@@ -534,16 +440,9 @@ onBeforeUnmount(() => {
   transition: width 0.5s cubic-bezier(.22,.68,0,1.2);
 }
 
-.project-entry:hover .project-title::after {
-  width: 100%;
-}
+.project-entry:hover .project-title::after { width: 100%; }
 
-.project-desc {
-  font-size: 15px;
-  line-height: 1.85;
-  color: var(--stone);
-}
-
+.project-desc { font-size: 15px; line-height: 1.85; color: var(--stone); }
 .project-desc p { margin-bottom: 12px; }
 .project-desc p:last-child { margin-bottom: 0; }
 
@@ -618,26 +517,16 @@ onBeforeUnmount(() => {
 
 .link-btn:hover .btn-hover-fill { transform: scaleX(1); }
 
-.link-btn-primary {
-  border-color: var(--crimson);
-  color: var(--crimson);
-}
+.link-btn-primary { border-color: var(--crimson); color: var(--crimson); }
 .link-btn-primary .btn-hover-fill { background: var(--crimson); }
 .link-btn-primary:hover .btn-inner { color: var(--cream); }
 
-.link-btn-secondary {
-  border-color: rgba(100,90,80,0.35);
-  color: var(--stone);
-}
+.link-btn-secondary { border-color: rgba(100,90,80,0.35); color: var(--stone); }
 .link-btn-secondary .btn-hover-fill { background: var(--bark); }
 .link-btn-secondary:hover .btn-inner { color: var(--cream); }
 
 /* ─── SCREENSHOTS ─────────────────────────────────────────── */
-.project-screenshots {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+.project-screenshots { display: flex; flex-direction: column; gap: 10px; }
 
 .screenshot {
   position: relative;
@@ -648,7 +537,10 @@ onBeforeUnmount(() => {
   justify-content: center;
   overflow: hidden;
   cursor: pointer;
-  transition: border-color 0.3s, transform 0.4s cubic-bezier(.22,.68,0,1.2), box-shadow 0.4s;
+  transition:
+    border-color 0.3s,
+    transform 0.4s cubic-bezier(.22,.68,0,1.2),
+    box-shadow 0.4s;
 }
 
 .screenshot:hover {
@@ -657,11 +549,10 @@ onBeforeUnmount(() => {
   box-shadow: 0 16px 40px rgba(127,1,31,0.1);
 }
 
-.screenshot-main { aspect-ratio: 16/10; }
+.screenshot-main    { aspect-ratio: 16/10; }
 .screenshot-sub-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.screenshot-sub { aspect-ratio: 16/10; overflow: hidden; }
+.screenshot-sub     { aspect-ratio: 16/10; overflow: hidden; }
 
-/* ─── IMAGE FIT ───────────────────────────────────────────── */
 .screenshot-img {
   position: absolute;
   inset: 0;
@@ -670,13 +561,11 @@ onBeforeUnmount(() => {
   display: block;
   z-index: 0;
   object-fit: cover;
-  object-position: right top;
   transition: transform 0.35s ease;
 }
 
 .screenshot-img--main { object-position: right top; }
 .screenshot-img--sub  { object-position: right center; }
-
 .screenshot:hover .screenshot-img { transform: scale(1.03); }
 
 .screenshot-shimmer {
@@ -710,10 +599,10 @@ onBeforeUnmount(() => {
   transition: width 0.3s, height 0.3s, border-color 0.3s;
   z-index: 3;
 }
-.screenshot-corner.tl { top: 8px; left: 8px; border-width: 1px 0 0 1px; }
-.screenshot-corner.tr { top: 8px; right: 8px; border-width: 1px 1px 0 0; }
-.screenshot-corner.bl { bottom: 8px; left: 8px; border-width: 0 0 1px 1px; }
-.screenshot-corner.br { bottom: 8px; right: 8px; border-width: 0 1px 1px 0; }
+.screenshot-corner.tl { top: 8px;    left: 8px;   border-width: 1px 0 0 1px; }
+.screenshot-corner.tr { top: 8px;    right: 8px;  border-width: 1px 1px 0 0; }
+.screenshot-corner.bl { bottom: 8px; left: 8px;   border-width: 0 0 1px 1px; }
+.screenshot-corner.br { bottom: 8px; right: 8px;  border-width: 0 1px 1px 0; }
 
 .screenshot:hover .screenshot-corner {
   width: 16px; height: 16px;
@@ -724,26 +613,19 @@ onBeforeUnmount(() => {
 @media (max-width: 1024px) {
   .projects-hero { padding: 80px 48px 60px; }
   .projects-list { padding: 0 48px 80px; }
-  .project-grid { gap: 40px; }
+  .project-grid  { gap: 40px; }
 }
 
 @media (max-width: 768px) {
   .projects-hero { padding: 72px 24px 48px; }
   .projects-list { padding: 0 24px 60px; }
-
-  .page-title { font-size: clamp(44px, 12vw, 72px); }
-
-  .project-grid {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-
+  .page-title    { font-size: clamp(44px, 12vw, 72px); }
+  .project-grid  { grid-template-columns: 1fr; gap: 32px; }
   .project-title { font-size: clamp(28px, 8vw, 44px); }
-  .screenshot-sub-row { grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 420px) {
-  .page-title { font-size: clamp(38px, 13vw, 56px); }
+  .page-title    { font-size: clamp(38px, 13vw, 56px); }
   .project-links { gap: 8px; }
 }
 </style>
