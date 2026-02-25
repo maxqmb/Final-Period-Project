@@ -2,7 +2,12 @@
 <template>
   <main id="projects" aria-label="Projects">
     <section class="projects-hero">
-      <div class="hero-grid-bg" aria-hidden="true"></div>
+      <!-- NEW: Unique animated background -->
+      <div class="hero-bg" aria-hidden="true">
+        <canvas class="hero-canvas" ref="heroCanvas"></canvas>
+        <div class="hero-vignette"></div>
+      </div>
+
       <div class="hero-content">
         <p class="page-eyebrow">
           <span class="eyebrow-line"></span>
@@ -12,7 +17,10 @@
         <h1 class="page-title">
           <span class="title-line">Pro</span><span class="title-line title-italic">jects</span>
         </h1>
-        <p class="projects-intro">A selection of projects showcasing problem-solving, design thinking, and the development of practical digital solutions.</p>
+        <p class="projects-intro">
+          Every project here started as a problem worth solving — and ended as something I'm proud to ship.
+          From pixel-perfect interfaces to full ordering flows, this is where ideas stop being ideas.
+        </p>
       </div>
       <div class="hero-orb" aria-hidden="true"></div>
       <div class="hero-orb hero-orb-2" aria-hidden="true"></div>
@@ -103,9 +111,11 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, onBeforeUnmount, ref } from 'vue'
 
 const projectEntries = ref([])
+const heroCanvas = ref(null)
+let animFrame = null
 
 const projects = [
   {
@@ -147,7 +157,147 @@ function onSsLeave(e) {
   el.querySelector('.screenshot-shimmer').style.opacity = '0'
 }
 
+// ─── UNIQUE CANVAS ANIMATION ────────────────────────────────
+// Liquid ink-thread particles: glowing crimson threads that drift,
+// connect when close, and pulse like a living circuit board.
+function initCanvas() {
+  const canvas = heroCanvas.value
+  if (!canvas) return
+  const ctx = canvas.getContext('2d')
+
+  const PARTICLE_COUNT = 55
+  const CONNECTION_DIST = 130
+  const COLOR_PRIMARY = '127,1,31'
+  const COLOR_GOLD = '200,160,80'
+
+  let W, H, particles
+
+  function resize() {
+    W = canvas.width = canvas.offsetWidth
+    H = canvas.height = canvas.offsetHeight
+  }
+
+  class Particle {
+    constructor() { this.reset(true) }
+    reset(init) {
+      this.x = Math.random() * W
+      this.y = init ? Math.random() * H : (Math.random() < 0.5 ? -10 : H + 10)
+      this.vx = (Math.random() - 0.5) * 0.45
+      this.vy = (Math.random() - 0.5) * 0.45
+      this.r = Math.random() * 1.6 + 0.5
+      this.pulse = Math.random() * Math.PI * 2
+      this.pulseSpeed = 0.012 + Math.random() * 0.018
+      this.gold = Math.random() < 0.12
+    }
+    update() {
+      this.x += this.vx
+      this.y += this.vy
+      this.pulse += this.pulseSpeed
+      // Soft boundary bounce
+      if (this.x < 0 || this.x > W) this.vx *= -1
+      if (this.y < 0 || this.y > H) this.vy *= -1
+    }
+    draw() {
+      const glow = (Math.sin(this.pulse) + 1) / 2
+      const alpha = 0.35 + glow * 0.55
+      const col = this.gold ? COLOR_GOLD : COLOR_PRIMARY
+      // Outer glow
+      const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r * 5)
+      grad.addColorStop(0, `rgba(${col},${(alpha * 0.7).toFixed(2)})`)
+      grad.addColorStop(1, `rgba(${col},0)`)
+      ctx.beginPath()
+      ctx.arc(this.x, this.y, this.r * 5, 0, Math.PI * 2)
+      ctx.fillStyle = grad
+      ctx.fill()
+      // Core dot
+      ctx.beginPath()
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2)
+      ctx.fillStyle = `rgba(${col},${alpha.toFixed(2)})`
+      ctx.fill()
+    }
+  }
+
+  function init() {
+    resize()
+    particles = Array.from({ length: PARTICLE_COUNT }, () => new Particle())
+  }
+
+  function drawConnections() {
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const a = particles[i], b = particles[j]
+        const dx = a.x - b.x, dy = a.y - b.y
+        const dist = Math.sqrt(dx * dx + dy * dy)
+        if (dist < CONNECTION_DIST) {
+          const strength = 1 - dist / CONNECTION_DIST
+          const pulseA = (Math.sin(a.pulse) + 1) / 2
+          const pulseB = (Math.sin(b.pulse) + 1) / 2
+          const pulse = (pulseA + pulseB) / 2
+          const alpha = (strength * 0.22 + pulse * strength * 0.18).toFixed(3)
+          const col = (a.gold || b.gold) ? COLOR_GOLD : COLOR_PRIMARY
+
+          // Draw the thread with a slight glow
+          ctx.beginPath()
+          ctx.moveTo(a.x, a.y)
+          // Add a subtle bezier curve for organic feel
+          const mx = (a.x + b.x) / 2 + (Math.sin(a.pulse * 0.7) * 8)
+          const my = (a.y + b.y) / 2 + (Math.cos(b.pulse * 0.7) * 8)
+          ctx.quadraticCurveTo(mx, my, b.x, b.y)
+          ctx.strokeStyle = `rgba(${col},${alpha})`
+          ctx.lineWidth = strength * 1.1 + pulse * 0.6
+          ctx.stroke()
+        }
+      }
+    }
+  }
+
+  // Occasional "spark" bursts along connections
+  const sparks = []
+  function maybeSpark() {
+    if (Math.random() < 0.025 && particles.length > 1) {
+      const a = particles[Math.floor(Math.random() * particles.length)]
+      const b = particles[Math.floor(Math.random() * particles.length)]
+      const dx = a.x - b.x, dy = a.y - b.y
+      if (Math.sqrt(dx*dx+dy*dy) < CONNECTION_DIST) {
+        sparks.push({ a, b, t: 0, gold: Math.random() < 0.3 })
+      }
+    }
+  }
+
+  function drawSparks() {
+    for (let i = sparks.length - 1; i >= 0; i--) {
+      const s = sparks[i]
+      s.t += 0.035
+      if (s.t > 1) { sparks.splice(i, 1); continue }
+      const x = s.a.x + (s.b.x - s.a.x) * s.t
+      const y = s.a.y + (s.b.y - s.a.y) * s.t
+      const alpha = Math.sin(s.t * Math.PI)
+      const col = s.gold ? COLOR_GOLD : COLOR_PRIMARY
+      ctx.beginPath()
+      ctx.arc(x, y, 2.5, 0, Math.PI * 2)
+      ctx.fillStyle = `rgba(${col},${(alpha * 0.9).toFixed(2)})`
+      ctx.fill()
+    }
+  }
+
+  function loop() {
+    ctx.clearRect(0, 0, W, H)
+    maybeSpark()
+    ctx.lineJoin = 'round'
+    ctx.lineCap = 'round'
+    drawConnections()
+    drawSparks()
+    particles.forEach(p => { p.update(); p.draw() })
+    animFrame = requestAnimationFrame(loop)
+  }
+
+  window.addEventListener('resize', resize)
+  init()
+  loop()
+}
+
 onMounted(() => {
+  // Scroll reveal
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -156,8 +306,14 @@ onMounted(() => {
       }
     })
   }, { threshold: 0.1 })
-
   document.querySelectorAll('.project-entry').forEach(el => observer.observe(el))
+
+  // Canvas animation
+  initCanvas()
+})
+
+onBeforeUnmount(() => {
+  if (animFrame) cancelAnimationFrame(animFrame)
 })
 </script>
 
@@ -176,13 +332,29 @@ onMounted(() => {
   overflow: hidden;
 }
 
-.hero-grid-bg {
+/* ─── NEW CANVAS BACKGROUND ───────────────────────────────── */
+.hero-bg {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, rgba(127,1,31,0.22) 1px, transparent 1px);
-  background-size: 36px 36px;
-  mask-image: linear-gradient(160deg, black 0%, transparent 65%);
-  -webkit-mask-image: linear-gradient(160deg, black 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Soft vignette so canvas doesn't bleed into edges harshly */
+.hero-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 60% at 100% 100%, rgba(127,1,31,0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 0% 0%, rgba(30,20,15,0.6) 0%, transparent 70%),
+    linear-gradient(180deg, transparent 50%, rgba(24,18,14,0.55) 100%);
 }
 
 .hero-orb {
@@ -195,13 +367,13 @@ onMounted(() => {
 .hero-orb:first-of-type {
   bottom: -100px; right: -100px;
   width: 420px; height: 420px;
-  background: radial-gradient(circle, rgba(127,1,31,0.35) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(127,1,31,0.22) 0%, transparent 70%);
 }
 
 .hero-orb-2 {
   top: -60px; left: 40%;
   width: 260px; height: 260px;
-  background: radial-gradient(circle, rgba(200,160,80,0.12) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(200,160,80,0.08) 0%, transparent 70%);
   animation-delay: -4s;
 }
 
@@ -245,7 +417,8 @@ onMounted(() => {
   color: var(--cream);
   margin-bottom: 28px;
   display: flex;
-  gap: 0.18em;
+  /* ↓ TIGHTER gap between Pro and jects */
+  gap: 0.04em;
 }
 
 .title-italic {
@@ -501,19 +674,10 @@ onMounted(() => {
   transition: transform 0.35s ease;
 }
 
-/* Main screenshot: show from the top-right of the page */
-.screenshot-img--main {
-  object-position: right top;
-}
+.screenshot-img--main { object-position: right top; }
+.screenshot-img--sub  { object-position: right center; }
 
-/* Sub screenshots: shift right-center to show meaningful content */
-.screenshot-img--sub {
-  object-position: right center;
-}
-
-.screenshot:hover .screenshot-img {
-  transform: scale(1.03);
-}
+.screenshot:hover .screenshot-img { transform: scale(1.03); }
 
 .screenshot-shimmer {
   position: absolute;
@@ -538,7 +702,6 @@ onMounted(() => {
 
 .screenshot:hover .screenshot-label { color: rgba(127,1,31,0.6); }
 
-/* Corner accents on main screenshot */
 .screenshot-corner {
   position: absolute;
   width: 10px; height: 10px;

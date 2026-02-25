@@ -1,0 +1,323 @@
+/* ════════════════════════════════════════════════════════════
+   MQ PORTFOLIO — COMPLETE THEME SYSTEM
+   Every color variable flips between light ↔ dark
+   Import this FIRST in main.js before all other CSS
+════════════════════════════════════════════════════════════ */
+
+/* ──────────────────────────────────────────────────────────
+   LIGHT MODE (default — original portfolio look)
+────────────────────────────────────────────────────────── */
+:root,
+[data-theme="light"] {
+  --crimson:        #7f011f;
+  --crimson-light:  #a3022a;
+  --crimson-dark:   #5c0116;
+  --gold:           #c9a84c;
+  --gold-light:     #e2c47a;
+
+  --charcoal:       #1a1410;
+  --warm-white:     #faf7f0;
+  --cream:          #f5ebd0;
+  --cream-dark:     #eddfc0;
+  --bark:           #3d2b1f;
+  --stone:          #8a7a6e;
+  --stone-light:    #b5a89c;
+
+  --about-story-left-bg:  #faf7f0;
+  --about-story-right-bg: #f5ebd0;
+  --skill-card-bg:        #ffffff;
+  --skill-card-border:    rgba(127,1,31,0.07);
+  --skill-card-title:     #3d2b1f;
+  --skill-card-desc:      #8a7a6e;
+  --marquee-item-bg:      rgba(255,255,255,0.75);
+  --marquee-item-border:  rgba(127,1,31,0.09);
+  --marquee-name-color:   #8a7a6e;
+  --section-title-color:  #3d2b1f;
+  --bio-text-color:       #8a7a6e;
+  --cert-bg:              #faf7f0;
+  --cert-img-wrap-bg:     #f5f0e8;
+
+  --projects-list-bg:     #faf7f0;
+  --project-title-color:  #3d2b1f;
+  --project-desc-color:   #8a7a6e;
+  --project-entry-border: rgba(127,1,31,0.08);
+  --tag-color:            #7f011f;
+  --tag-border:           rgba(127,1,31,0.2);
+  --tag-bg:               transparent;
+  --screenshot-bg:        rgba(240,233,215,0.55);
+  --screenshot-border:    rgba(127,1,31,0.1);
+
+  --contact-form-bg:      #faf7f0;
+  --contact-form-title:   #3d2b1f;
+  --form-input-color:     #3d2b1f;
+  --form-border:          rgba(61,43,31,0.14);
+  --form-placeholder:     rgba(138,122,110,0.38);
+  --contact-section-bg:   #faf7f0;
+  --contact-label-color:  #7f011f;
+  --form-label-color:     #8a7a6e;
+
+  --resume-body-bg:       #faf7f0;
+  --resume-col-right-bg:  rgba(127,1,31,0.018);
+  --resume-col-border:    rgba(127,1,31,0.08);
+  --r-block-title-color:  #3d2b1f;
+  --edu-degree-color:     #3d2b1f;
+  --edu-school-color:     #8a7a6e;
+  --edu-dot-bg:           #faf7f0;
+  --edu-row-border:       rgba(127,1,31,0.06);
+  --honor-chip-color:     rgba(180,140,50,0.9);
+  --honor-chip-bg:        rgba(201,168,76,0.09);
+  --honor-chip-border:    rgba(201,168,76,0.22);
+  --exp-card-bg:          #f5ebd0;
+  --exp-card-border:      rgba(127,1,31,0.1);
+  --exp-role-color:       #3d2b1f;
+  --exp-desc-color:       #8a7a6e;
+  --chip-color:           #7f011f;
+  --chip-border:          rgba(127,1,31,0.16);
+  --chip-hover-bg:        rgba(127,1,31,0.06);
+  --chip-hover-border:    rgba(127,1,31,0.35);
+  --cert-card-bg:         #f5ebd0;
+  --cert-card-bg-hover:   #faf7f0;
+  --cert-card-border:     rgba(127,1,31,0.1);
+  --cert-card-border-hover: rgba(127,1,31,0.3);
+  --cc-idx-color:         rgba(127,1,31,0.1);
+  --cc-name-color:        #3d2b1f;
+  --cc-org-color:         #8a7a6e;
+  --cc-bar-bg:            rgba(127,1,31,0.08);
+
+  --pill-bg:              rgba(14,9,6,0.60);
+  --pill-bg-scrolled:     rgba(10,6,4,0.82);
+  --pill-border:          rgba(255,255,255,0.09);
+  --pill-link-text:       rgba(200,185,158,0.72);
+  --pill-link-hover-bg:   rgba(255,255,255,0.06);
+  --pill-link-hover-border: rgba(255,255,255,0.10);
+  --pill-link-hover-text: rgba(240,230,205,0.92);
+
+  --scrollbar-track: #f5f0e4;
+  --scrollbar-thumb: rgba(127,1,31,0.25);
+  --scrollbar-hover: rgba(127,1,31,0.45);
+}
+
+/* ──────────────────────────────────────────────────────────
+   DARK MODE — everything flips to dark
+────────────────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --crimson:        #7f011f;
+  --crimson-light:  #a3022a;
+  --crimson-dark:   #5c0116;
+  --gold:           #c9a84c;
+  --gold-light:     #e2c47a;
+
+  --charcoal:       #0e0b09;
+  --warm-white:     #1a1410;
+  --cream:          #211810;
+  --cream-dark:     #1a1410;
+  --bark:           #f5ebd0;
+  --stone:          rgba(245,235,208,0.55);
+  --stone-light:    rgba(245,235,208,0.38);
+
+  --about-story-left-bg:  #1a1410;
+  --about-story-right-bg: #18120e;
+  --skill-card-bg:        #221810;
+  --skill-card-border:    rgba(245,235,208,0.06);
+  --skill-card-title:     #f5ebd0;
+  --skill-card-desc:      rgba(245,235,208,0.55);
+  --marquee-item-bg:      rgba(255,255,255,0.05);
+  --marquee-item-border:  rgba(245,235,208,0.08);
+  --marquee-name-color:   rgba(245,235,208,0.6);
+  --section-title-color:  #f5ebd0;
+  --bio-text-color:       rgba(245,235,208,0.55);
+  --cert-bg:              #1a1410;
+  --cert-img-wrap-bg:     #211810;
+
+  --projects-list-bg:     #0e0b09;
+  --project-title-color:  #f5ebd0;
+  --project-desc-color:   rgba(245,235,208,0.55);
+  --project-entry-border: rgba(245,235,208,0.06);
+  --tag-color:            rgba(245,235,208,0.65);
+  --tag-border:           rgba(245,235,208,0.15);
+  --tag-bg:               rgba(245,235,208,0.04);
+  --screenshot-bg:        rgba(255,255,255,0.04);
+  --screenshot-border:    rgba(245,235,208,0.08);
+
+  --contact-form-bg:      #1a1410;
+  --contact-form-title:   #f5ebd0;
+  --form-input-color:     #f5ebd0;
+  --form-border:          rgba(245,235,208,0.14);
+  --form-placeholder:     rgba(245,235,208,0.25);
+  --contact-section-bg:   #1a1410;
+  --contact-label-color:  var(--crimson);
+  --form-label-color:     rgba(245,235,208,0.45);
+
+  --resume-body-bg:       #0e0b09;
+  --resume-col-right-bg:  rgba(127,1,31,0.04);
+  --resume-col-border:    rgba(245,235,208,0.06);
+  --r-block-title-color:  #f5ebd0;
+  --edu-degree-color:     #f5ebd0;
+  --edu-school-color:     rgba(245,235,208,0.45);
+  --edu-dot-bg:           #1a1410;
+  --edu-row-border:       rgba(245,235,208,0.05);
+  --honor-chip-color:     rgba(226,196,122,0.9);
+  --honor-chip-bg:        rgba(201,168,76,0.12);
+  --honor-chip-border:    rgba(201,168,76,0.3);
+  --exp-card-bg:          #221810;
+  --exp-card-border:      rgba(245,235,208,0.07);
+  --exp-role-color:       #f5ebd0;
+  --exp-desc-color:       rgba(245,235,208,0.55);
+  --chip-color:           rgba(245,235,208,0.65);
+  --chip-border:          rgba(245,235,208,0.12);
+  --chip-hover-bg:        rgba(245,235,208,0.06);
+  --chip-hover-border:    rgba(245,235,208,0.28);
+  --cert-card-bg:         #221810;
+  --cert-card-bg-hover:   #2a1e14;
+  --cert-card-border:     rgba(245,235,208,0.07);
+  --cert-card-border-hover: rgba(245,235,208,0.18);
+  --cc-idx-color:         rgba(245,235,208,0.07);
+  --cc-name-color:        #f5ebd0;
+  --cc-org-color:         rgba(245,235,208,0.42);
+  --cc-bar-bg:            rgba(245,235,208,0.06);
+
+  --pill-bg:              rgba(14,9,6,0.60);
+  --pill-bg-scrolled:     rgba(10,6,4,0.82);
+  --pill-border:          rgba(255,255,255,0.09);
+  --pill-link-text:       rgba(200,185,158,0.72);
+  --pill-link-hover-bg:   rgba(255,255,255,0.06);
+  --pill-link-hover-border: rgba(255,255,255,0.10);
+  --pill-link-hover-text: rgba(240,230,205,0.92);
+
+  --scrollbar-track: #18120e;
+  --scrollbar-thumb: rgba(127,1,31,0.4);
+  --scrollbar-hover: rgba(127,1,31,0.65);
+}
+
+/* ──────────────────────────────────────────────────────────
+   SMOOTH TRANSITIONS (colors only, never layout/transform)
+────────────────────────────────────────────────────────── */
+body, main, section, header, footer,
+div, p, h1, h2, h3, h4, h5, h6,
+span, a, button, input, textarea, ul, li {
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease !important;
+}
+
+canvas, img, video,
+.marquee-track, .marquee-left, .marquee-right,
+.tt-thumb, .tt-track,
+.sun-core, .sun-rays, .ray, .moon-body, .star,
+.nav-logo-img,
+[class*="animation"] { transition: none !important; }
+
+/* ──────────────────────────────────────────────────────────
+   SCROLLBAR
+────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-hover); }
+
+::selection { background: rgba(127,1,31,0.25); color: var(--bark); }
+
+/* ══════════════════════════════════════════════════════════
+   DARK MODE DIRECT OVERRIDES
+   Targets every section by class name
+══════════════════════════════════════════════════════════ */
+
+/* ── BODY ── */
+[data-theme="dark"] body { background: #0e0b09 !important; color: #f5ebd0; }
+
+/* ── ABOUT PAGE ── */
+[data-theme="dark"] .about-story-left  { background: var(--about-story-left-bg) !important; }
+[data-theme="dark"] .about-story-right { background: var(--about-story-right-bg) !important; }
+[data-theme="dark"] .about-bio,
+[data-theme="dark"] .about-bio p       { color: var(--bio-text-color) !important; }
+[data-theme="dark"] .skill-card        { background: var(--skill-card-bg) !important; border-color: var(--skill-card-border) !important; }
+[data-theme="dark"] .skill-card-title  { color: var(--skill-card-title) !important; }
+[data-theme="dark"] .skill-card-desc   { color: var(--skill-card-desc) !important; }
+[data-theme="dark"] .skill-card-num    { color: rgba(245,235,208,0.07) !important; }
+[data-theme="dark"] .section-title     { color: var(--section-title-color) !important; }
+[data-theme="dark"] .section-line      { background: rgba(245,235,208,0.1) !important; }
+[data-theme="dark"] .tech-sub          { color: var(--stone) !important; }
+[data-theme="dark"] .marquee-item      { background: var(--marquee-item-bg) !important; border-color: var(--marquee-item-border) !important; }
+[data-theme="dark"] .marquee-name      { color: var(--marquee-name-color) !important; }
+[data-theme="dark"] .marquee-item:hover .marquee-name { color: #f5ebd0 !important; }
+[data-theme="dark"] .skills-card-label { color: var(--crimson) !important; }
+
+/* Cert slider (About page) */
+[data-theme="dark"] .cert-slider       { background: var(--cert-bg) !important; border-color: rgba(245,235,208,0.08) !important; }
+[data-theme="dark"] .cert-img-wrap     { background: var(--cert-img-wrap-bg) !important; }
+[data-theme="dark"] .cert-title        { color: #f5ebd0 !important; }
+[data-theme="dark"] .cert-controls     { background: rgba(255,255,255,0.025) !important; border-top-color: rgba(245,235,208,0.06) !important; }
+[data-theme="dark"] .cert-nav          { background: #2a1e14 !important; border-color: rgba(245,235,208,0.1) !important; color: #f5ebd0 !important; }
+[data-theme="dark"] .cert-counter-current { color: var(--crimson) !important; }
+[data-theme="dark"] .cert-counter-sep,
+[data-theme="dark"] .cert-counter-total   { color: rgba(245,235,208,0.3) !important; }
+[data-theme="dark"] .cert-dot         { background: rgba(245,235,208,0.18) !important; }
+[data-theme="dark"] .cert-dot--active { background: var(--crimson) !important; }
+
+/* ── PROJECTS PAGE ── */
+[data-theme="dark"] #projects          { background: var(--projects-list-bg) !important; }
+[data-theme="dark"] .projects-list     { background: var(--projects-list-bg) !important; }
+[data-theme="dark"] .project-title     { color: var(--project-title-color) !important; }
+[data-theme="dark"] .project-desc,
+[data-theme="dark"] .project-desc p    { color: var(--project-desc-color) !important; }
+[data-theme="dark"] .project-entry     { border-bottom-color: var(--project-entry-border) !important; }
+[data-theme="dark"] .tech-label        { color: var(--crimson) !important; }
+[data-theme="dark"] .tag               { color: var(--tag-color) !important; border-color: var(--tag-border) !important; background: var(--tag-bg) !important; }
+[data-theme="dark"] .screenshot        { background: var(--screenshot-bg) !important; border-color: var(--screenshot-border) !important; }
+[data-theme="dark"] .screenshot-label  { color: rgba(245,235,208,0.28) !important; }
+[data-theme="dark"] .screenshot-corner { border-color: rgba(245,235,208,0.2) !important; }
+[data-theme="dark"] .rule-num          { color: var(--crimson) !important; opacity: 0.7; }
+[data-theme="dark"] .rule-line         { background: linear-gradient(90deg, rgba(245,235,208,0.15), transparent) !important; }
+[data-theme="dark"] .link-btn-secondary { border-color: rgba(245,235,208,0.2) !important; color: rgba(245,235,208,0.6) !important; }
+[data-theme="dark"] .link-btn-secondary:hover .btn-inner { color: #f5ebd0 !important; }
+
+/* ── CONTACT PAGE ── */
+[data-theme="dark"] .contact-body      { background: var(--contact-section-bg) !important; }
+[data-theme="dark"] .contact-left      { background: var(--contact-form-bg) !important; }
+[data-theme="dark"] .contact-left::before { background: linear-gradient(to bottom, transparent, var(--crimson) 30%, var(--gold) 70%, transparent) !important; }
+[data-theme="dark"] .contact-form-title { color: var(--contact-form-title) !important; }
+[data-theme="dark"] .contact-section-label { color: var(--crimson) !important; }
+[data-theme="dark"] .form-label        { color: var(--form-label-color) !important; }
+[data-theme="dark"] .form-input        { color: var(--form-input-color) !important; border-bottom-color: var(--form-border) !important; background: transparent !important; }
+[data-theme="dark"] .form-input::placeholder { color: var(--form-placeholder) !important; }
+[data-theme="dark"] .optional-label   { color: rgba(245,235,208,0.25) !important; }
+
+/* ── RESUME PAGE ── */
+[data-theme="dark"] #resume            { background: var(--resume-body-bg) !important; }
+[data-theme="dark"] .r-body            { background: var(--resume-body-bg) !important; }
+[data-theme="dark"] .r-col             { background: var(--resume-body-bg) !important; }
+[data-theme="dark"] .r-col-left        { border-right-color: var(--resume-col-border) !important; }
+[data-theme="dark"] .r-col-right       { background: var(--resume-col-right-bg) !important; }
+[data-theme="dark"] .r-block-title     { color: var(--r-block-title-color) !important; }
+[data-theme="dark"] .r-block-num       { color: var(--crimson) !important; }
+[data-theme="dark"] .r-block-rule      { background: linear-gradient(90deg, rgba(245,235,208,0.15), transparent) !important; }
+
+/* Education */
+[data-theme="dark"] .edu-degree        { color: var(--edu-degree-color) !important; }
+[data-theme="dark"] .edu-school        { color: var(--edu-school-color) !important; }
+[data-theme="dark"] .edu-dot           { background: var(--edu-dot-bg) !important; }
+[data-theme="dark"] .edu-row.active .edu-dot { background: var(--crimson) !important; }
+[data-theme="dark"] .edu-row           { border-bottom-color: var(--edu-row-border) !important; }
+[data-theme="dark"] .edu-row.active    { background: rgba(245,235,208,0.03) !important; }
+[data-theme="dark"] .edu-track         { background: rgba(245,235,208,0.1) !important; }
+[data-theme="dark"] .honor-chip        { color: var(--honor-chip-color) !important; background: var(--honor-chip-bg) !important; border-color: var(--honor-chip-border) !important; }
+
+/* Experience */
+[data-theme="dark"] .exp-card          { background: var(--exp-card-bg) !important; border-color: var(--exp-card-border) !important; }
+[data-theme="dark"] .exp-card:hover    { border-color: rgba(245,235,208,0.15) !important; box-shadow: 0 6px 24px rgba(0,0,0,0.4) !important; }
+[data-theme="dark"] .exp-role          { color: var(--exp-role-color) !important; }
+[data-theme="dark"] .exp-year          { color: var(--crimson) !important; }
+[data-theme="dark"] .exp-desc          { color: var(--exp-desc-color) !important; }
+[data-theme="dark"] .chip              { color: var(--chip-color) !important; border-color: var(--chip-border) !important; }
+[data-theme="dark"] .chip:hover        { background: var(--chip-hover-bg) !important; border-color: var(--chip-hover-border) !important; }
+
+/* Certifications (Resume page) */
+[data-theme="dark"] .cert-card         { background: var(--cert-card-bg) !important; border-color: var(--cert-card-border) !important; }
+[data-theme="dark"] .cert-card:hover,
+[data-theme="dark"] .cert-card.active  { background: var(--cert-card-bg-hover) !important; border-color: var(--cert-card-border-hover) !important; box-shadow: 0 8px 28px rgba(0,0,0,0.4) !important; }
+[data-theme="dark"] .cc-idx            { color: var(--cc-idx-color) !important; }
+[data-theme="dark"] .cc-name           { color: var(--cc-name-color) !important; }
+[data-theme="dark"] .cc-org            { color: var(--cc-org-color) !important; }
+[data-theme="dark"] .cc-bar            { background: var(--cc-bar-bg) !important; }

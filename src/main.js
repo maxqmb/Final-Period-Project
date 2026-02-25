@@ -2,6 +2,7 @@
 import { createApp } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import App from './App.vue'
+import './theme.css'
 import './style.css'
 
 import HomePage from './views/HomePage.vue'
