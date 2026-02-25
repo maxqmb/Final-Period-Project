@@ -117,7 +117,7 @@
 <script setup>
 import { inject, ref, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
-import ThemeToggle from './Themetoggle.vue'
+import ThemeToggle from './ThemeToggle.vue'
 
 const mobileOpen = inject('mobileOpen')
 const route      = useRoute()
