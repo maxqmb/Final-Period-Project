@@ -82,7 +82,7 @@
             <div class="marquee-track marquee-left">
               <template v-for="n in 2" :key="n">
                 <div class="marquee-item" v-for="tech in row1" :key="`r1-${n}-${tech.name}`">
-                  <span class="marquee-icon" v-html="tech.svg" aria-hidden="true"></span>
+                  <span class="marquee-icon" aria-hidden="true" v-html="tech.img"></span>
                   <span class="marquee-name">{{ tech.name }}</span>
                 </div>
               </template>
@@ -94,7 +94,7 @@
             <div class="marquee-track marquee-right">
               <template v-for="n in 2" :key="n">
                 <div class="marquee-item" v-for="tech in row2" :key="`r2-${n}-${tech.name}`">
-                  <span class="marquee-icon" v-html="tech.svg" aria-hidden="true"></span>
+                  <span class="marquee-icon" aria-hidden="true" v-html="tech.img"></span>
                   <span class="marquee-name">{{ tech.name }}</span>
                 </div>
               </template>
@@ -106,7 +106,7 @@
             <div class="marquee-track marquee-left marquee-slow">
               <template v-for="n in 2" :key="n">
                 <div class="marquee-item" v-for="tech in row3" :key="`r3-${n}-${tech.name}`">
-                  <span class="marquee-icon" v-html="tech.svg" aria-hidden="true"></span>
+                  <span class="marquee-icon" aria-hidden="true" v-html="tech.img"></span>
                   <span class="marquee-name">{{ tech.name }}</span>
                 </div>
               </template>
@@ -195,11 +195,16 @@ import { ref, onMounted } from 'vue'
 
 /* ── Certs ── */
 const certs = ref([
-  { id: 1, title: 'SEO Certified',                                         issuer: 'HubSpot',      year: '2026', image: '/assets/certs/cert-5.png', link: 'https://app-na2.hubspot.com/academy/achievements/db7dlkh3/en/1/maxene-quiambao/seo' },
-  { id: 2, title: 'Design Thinking for Beginners',                         issuer: 'SimpliLearn',  year: '2025', image: '/assets/certs/cert-4.png', link: 'https://simpli-web.app.link/e/FAIxn4wUX0b' },
-  { id: 3, title: 'Introduction to Graphic Design: Basics of UI/UX',       issuer: 'SimpliLearn',  year: '2023', image: '/assets/certs/cert-3.png', link: 'https://simpli-web.app.link/e/haeuArjUX0b' },
-  { id: 4, title: 'Legacy JavaScript Algorithms and Data Structures V7',   issuer: 'freeCodeCamp', year: '2025', image: '/assets/certs/cert-2.png', link: 'https://www.freecodecamp.org/certification/maxqmb/back-end-development-and-apis' },
-  { id: 5, title: 'Legacy Responsive Web Design V8',                       issuer: 'freeCodeCamp', year: '2024', image: '/assets/certs/cert-1.png', link: 'https://www.freecodecamp.org/certification/maxqmb/responsive-web-design' },
+  { id: 1,  title: 'Google Analytics Certification',                                    issuer: 'Google',       year: '2025', image: '/assets/certs/cert-1.png',  link: 'https://skillshop.credential.net/073d932e-ca9d-4bbd-b4c3-479a9e52b962#acc.UZipqmD9' },
+  { id: 2,  title: 'SEO Certified',                                                     issuer: 'HubSpot',      year: '2026', image: '/assets/certs/cert-2.png',  link: 'https://app-na2.hubspot.com/academy/achievements/db7dlkh3/en/1/maxene-quiambao/seo' },
+  { id: 3,  title: 'SEO II Certified',                                                  issuer: 'HubSpot',      year: '2026', image: '/assets/certs/cert-3.png',  link: 'https://app-na2.hubspot.com/academy/achievements/ctxnfk08/en/1/maxene-quiambao/seo-ii' },
+  { id: 4,  title: 'JavaScript Essentials 1',                                           issuer: 'Credly',       year: '2025', image: '/assets/certs/cert-4.png',  link: 'https://www.credly.com/badges/7654c52c-ca71-4871-abfa-f0ad443d2ad0/public_url' },
+  { id: 5,  title: 'Introduction to PHP',                                               issuer: 'SimpliLearn',  year: '2025', image: '/assets/certs/cert-5.png',  link: 'https://simpli-web.app.link/e/4JvPyXcuv1b' },
+  { id: 6,  title: 'Website UI/UX Designing using ChatGPT: Become a UI UX Designer',   issuer: 'SimpliLearn',  year: '2025', image: '/assets/certs/cert-6.png',  link: 'https://simpli-web.app.link/e/r5kkXOruv1b' },
+  { id: 7,  title: 'Design Thinking for Beginners',                                     issuer: 'SimpliLearn',  year: '2025', image: '/assets/certs/cert-7.png',  link: 'https://simpli-web.app.link/e/FAIxn4wUX0b' },
+  { id: 8,  title: 'Introduction to Graphic Design: Basics of UI/UX',                  issuer: 'SimpliLearn',  year: '2023', image: '/assets/certs/cert-8.png',  link: 'https://simpli-web.app.link/e/haeuArjUX0b' },
+  { id: 9,  title: 'Legacy JavaScript Algorithms and Data Structures V7',               issuer: 'freeCodeCamp', year: '2025', image: '/assets/certs/cert-9.png',  link: 'https://www.freecodecamp.org/certification/maxqmb/back-end-development-and-apis' },
+  { id: 10, title: 'Legacy Responsive Web Design V8',                                   issuer: 'freeCodeCamp', year: '2024', image: '/assets/certs/cert-10.png', link: 'https://www.freecodecamp.org/certification/maxqmb/responsive-web-design' },
 ])
 const activeIndex = ref(0)
 function next() { if (activeIndex.value < certs.value.length - 1) activeIndex.value++ }
@@ -217,41 +222,60 @@ const qualities = [
 ]
 
 /* ══════════════════════════════════════
-   TECH ROWS — split into 3 rows for marquee
-   Row 1 (left):  core web + frameworks
-   Row 2 (right): design tools + languages
-   Row 3 (left):  extras
+   TECH ROWS — all inline SVGs, no external files needed
 ══════════════════════════════════════ */
+
+const svgJS       = `<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h256v256H0V0z" fill="#F7DF1E"/><path d="M67.312 213.932l19.59-11.856c3.78 6.701 7.218 12.371 15.465 12.371 7.905 0 12.89-3.092 12.89-15.12v-81.798h24.057v82.138c0 24.917-14.606 36.259-35.916 36.259-19.245 0-30.416-9.967-36.087-21.996M152.381 211.354l19.588-11.341c5.157 8.421 11.859 14.607 23.715 14.607 9.969 0 16.325-4.984 16.325-11.858 0-8.248-6.53-11.17-17.528-15.98l-6.013-2.58c-17.357-7.387-28.87-16.667-28.87-36.257 0-18.044 13.747-31.792 35.228-31.792 15.294 0 26.292 5.328 34.196 19.247L210.29 147.43c-4.125-7.389-8.591-10.31-15.465-10.31-7.046 0-11.514 4.468-11.514 10.31 0 7.217 4.468 10.14 14.778 14.608l6.014 2.577c20.45 8.765 31.963 17.7 31.963 37.804 0 21.654-17.012 33.51-39.867 33.51-22.339 0-36.774-10.654-43.819-24.574" fill="#323330"/></svg>`
+const svgHTML5    = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 90"><polygon points="12.54,81 5.32,0 84.68,0 77.45,80.99 44.95,90" fill="#E44D26"/><polygon points="45,16.56 44.97,16.56 20.09,16.56 20.33,19.22 22.77,46.6 44.97,46.6 45,46.6 57.2,46.6 56.05,59.48 44.97,62.48 44.96,62.48 33.89,59.49 33.19,51.57 27.81,51.57 23.21,51.57 24.6,67.17 44.95,72.82 45,72.8 65.33,67.17 65.48,65.49 67.82,39.33 68.06,36.67 65.38,36.67 45,36.67 44.97,36.67 31.85,36.67 30.95,26.49 44.97,26.49 45,26.49 68.93,26.49 68.96,26.49 69.16,24.26 69.61,19.22 69.85,16.56" fill="#fff"/></svg>`
+const svgCSS3     = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M74.633 100.62l32.011 369.257L255.778 512l149.543-41.181 32.046-370.199z" fill="#264de4"/><path d="M256 480.523l120.03-33.277 28.24-316.352H256z" fill="#2965f1"/><path d="M256 268.217H150.31l4.07 45.41H256v-45.41zM256 176.305h-113.868l4.128 45.411H256v-45.41z" fill="#ebebeb"/><path d="M156.409 336.333l6.362 71.301L255.791 433.457V386.153l-50.574-13.656-3.233-36.164zM311.761 313.627l-5.271 58.894-50.647 13.67v47.244l93.094-25.801.683-7.672 10.671-119.551 1.108-12.194 8.198-91.912H255.843v45.411h63.988l-4.132 46.501H255.843v45.41z" fill="#fff"/></svg>`
+const svgVue      = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M39.333 5.5L32 18.333 24.667 5.5H0L32 61 64 5.5z" fill="#42b883"/><path d="M39.333 5.5L32 18.333 24.667 5.5H12.833L32 38.833 51.167 5.5z" fill="#35495e"/></svg>`
+const svgTailwind = `<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M9,13.7q1.4-5.6,7-5.6c5.6,0,6.3,4.2,9.1,4.9q2.8.7,4.9-2.1-1.4,5.6-7,5.6c-5.6,0-6.3-4.2-9.1-4.9Q11.1,10.9,9,13.7ZM2,22.1q1.4-5.6,7-5.6c5.6,0,6.3,4.2,9.1,4.9q2.8.7,4.9-2.1-1.4,5.6-7,5.6c-5.6,0-6.3-4.2-9.1-4.9Q4.1,19.3,2,22.1Z" fill="#44a8b3"/></svg>`
+const svgPHP      = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50"><ellipse cx="25" cy="25" rx="25" ry="15" fill="#777bb3"/><text x="25" y="30" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="16" fill="white">php</text></svg>`
+const svgGitHub   = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z" fill="#24292e"/></svg>`
+const svgFigma    = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300"><path d="M50 300c27.6 0 50-22.4 50-50v-50H50c-27.6 0-50 22.4-50 50s22.4 50 50 50z" fill="#0acf83"/><path d="M0 150c0-27.6 22.4-50 50-50h50v100H50c-27.6 0-50-22.4-50-50z" fill="#a259ff"/><path d="M0 50C0 22.4 22.4 0 50 0h50v100H50C22.4 100 0 77.6 0 50z" fill="#f24e1e"/><path d="M100 0h50c27.6 0 50 22.4 50 50s-22.4 50-50 50h-50V0z" fill="#ff7262"/><path d="M200 150c0 27.6-22.4 50-50 50s-50-22.4-50-50 22.4-50 50-50 50 22.4 50 50z" fill="#1abcfe"/></svg>`
+const svgVSCode   = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M1.21 35.39S-1.19 33.66 1.69 31.35l6.71-6s1.92-2.02 3.95-.26l61.92 46.88v22.48s-.03 3.53-4.56 3.14z" fill="#2489ca"/><path d="M17.17 49.88 1.21 64.39s-1.64 1.22 0 3.4l7.41 6.74s1.76 1.89 4.36-.26l16.92-12.83z" fill="#1070b3"/><path d="M45.19 50 73.88 26.5 73.69 2.9S72.44-1.9 68.27 3.5L23.69 57.95z" fill="#0877b9"/><path d="M69.71 97.62c1.7 1.74 3.76 1.17 3.76 1.17L96 86.35c2.92-1.99 2.51-4.46 2.51-4.46V13.7c0-2.95-3.02-3.97-3.02-3.97L75.72 4.43C71.5-2.27 69 .23 69 .23s3.64-2.62 5.42 2.34v88.75c0 .61-.13 1.21-.39 1.75-1.56 3.55-5.32 6.55-4.32 4.55z" fill="#3c99d4"/></svg>`
+
+const svgGraphicDesign = `<svg viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="2.5" fill="#E2C47A"/><circle cx="17.5" cy="10.5" r="2.5" fill="#7f011f"/><circle cx="13.5" cy="14.5" r="2.5" fill="#41B883"/><circle cx="9.5" cy="10.5" r="2.5" fill="#1572B6"/><path d="M4 20h16M4 20l2-4M20 20l-2-4" stroke="#8a7a6e" stroke-width="1.5" stroke-linecap="round"/></svg>`
+const svgResponsive    = `<svg viewBox="0 0 24 24" fill="none" stroke="#8a7a6e" stroke-width="1.5"><rect x="2" y="4" width="14" height="10" rx="1.5"/><rect x="16" y="7" width="6" height="7" rx="1"/><path d="M5 18h7M8.5 14v4" stroke-linecap="round"/></svg>`
+const svgUIUX          = `<svg viewBox="0 0 24 24" fill="none" stroke="#8a7a6e" stroke-width="1.5"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M3 7h18"/><circle cx="6" cy="5" r="0.8" fill="#8a7a6e" stroke="none"/><circle cx="9" cy="5" r="0.8" fill="#8a7a6e" stroke="none"/><circle cx="12" cy="5" r="0.8" fill="#8a7a6e" stroke="none"/><path d="M7 11h4M7 13h6" stroke-linecap="round"/></svg>`
+
+const svgFlutter = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><polygon fill="#40c4ff" points="26,4 6,24 12,30 38,4"/><polygon fill="#40c4ff" points="38,22 27,33 21,27 26,22"/><rect width="8.485" height="8.485" x="16.757" y="28.757" fill="#03a9f4" transform="rotate(-45.001 21 33)"/><polygon fill="#01579b" points="38,44 26,44 21,39 27,33"/><polygon fill="#084994" points="21,39 30,36 27,33"/></svg>`
+
+const svgAngular = `<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><g clip-path="url(#prefix__clip0_9_19)"><mask id="prefix__a" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="14" y="0" width="484" height="512"><path d="M14 0h484v512H14V0z" fill="#fff"/></mask><g mask="url(#prefix__a)"><mask id="prefix__b" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="14" y="0" width="484" height="512"><path d="M14 0h484v512H14V0z" fill="#fff"/></mask><g mask="url(#prefix__b)"><path d="M496 86l-18 272L312 0l184 86zM380 438l-124 72-126-72 24-62h202l24 62zM256 136l64 160H190l66-160zM32 358L14 86 198 0 32 358z" fill="url(#prefix__paint0_linear_9_19)"/><path d="M496 86l-18 272L312 0l184 86zM380 438l-124 72-126-72 24-62h202l24 62zM256 136l64 160H190l66-160zM32 358L14 86 198 0 32 358z" fill="url(#prefix__paint1_linear_9_19)"/></g></g></g><defs><linearGradient id="prefix__paint0_linear_9_19" x1="120.4" y1="463.8" x2="504" y2="281.4" gradientUnits="userSpaceOnUse"><stop stop-color="#E40035"/><stop offset=".2" stop-color="#F60A48"/><stop offset=".4" stop-color="#F20755"/><stop offset=".5" stop-color="#DC087D"/><stop offset=".7" stop-color="#9717E7"/><stop offset="1" stop-color="#6C00F5"/></linearGradient><linearGradient id="prefix__paint1_linear_9_19" x1="103" y1="61.4" x2="354" y2="348" gradientUnits="userSpaceOnUse"><stop stop-color="#FF31D9"/><stop offset="1" stop-color="#FF5BE1" stop-opacity="0"/></linearGradient><clipPath id="prefix__clip0_9_19"><path fill="#fff" transform="translate(14)" d="M0 0h484v512H0z"/></clipPath></defs></svg>`
+
+const svgDart = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 502.87 502.87"><defs><radialGradient id="dart-rg" cx="251.42" cy="631.97" r="251.4" gradientTransform="translate(0 -380.56)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff" stop-opacity="0.1"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs><path d="M102.56,400.31l-86-86C6.32,303.82,0,289,0,274.58c0-6.69,3.77-17.16,6.62-23.15L86,86Z" fill="#01579b"/><path d="M397,102.56l-86-86C303.49,9,287.85,0,274.61,0c-11.38,0-22.55,2.29-29.76,6.62L86.07,86Z" fill="#40c4ff"/><polygon points="205.11 502.87 413.55 502.87 413.55 413.55 258.05 363.9 115.79 413.55 205.11 502.87" fill="#40c4ff"/><path d="M86,354c0,26.54,3.33,33.05,16.53,46.32l13.23,13.24H413.55L268,248.14,86,86Z" fill="#29b6f6"/><path d="M350.7,86H86L413.55,413.51h89.32V208.4L397,102.52C382.12,87.62,368.92,86,350.7,86Z" fill="#01579b"/><path d="M105.88,403.6C92.65,390.33,89.36,377.24,89.36,354V89.32L86.07,86V354c0,23.25,0,29.69,19.81,49.61l9.91,9.91h0Z" fill="#fff" opacity="0.2"/><path d="M397,102.56C380.61,86.14,367.19,86,347.41,86H86.07l3.29,3.29H347.41c9.87,0,34.79-1.66,49.61,13.24Z" fill="#fff" opacity="0.2"/><path d="M499.58,205.11,397,102.56l-86-86C303.49,9,287.85,0,274.61,0c-11.38,0-22.55,2.29-29.76,6.62L86.07,86,6.65,251.43C3.81,257.46,0,267.92,0,274.58c0,14.45,6.36,29.2,16.52,39.7L95.83,393a92.42,92.42,0,0,0,6.73,7.32l3.29,3.29,9.9,9.91,86,86,3.29,3.29h208.4V413.51h89.32V208.4Z" fill="url(#dart-rg)"/></svg>`
+
 const row1 = [
-  { name: 'HTML5',      svg: `<svg viewBox="0 0 24 24"><path d="M4 3L5.5 19.5L12 21.5L18.5 19.5L20 3H4Z" fill="#E34F26"/><path d="M12 5H18L17 17L12 18.5V5Z" fill="#EF652A"/><path d="M8 7H12V9H10L10.2 11H12V13H8.5L8 7ZM8.7 14H10.7L10.9 16L12 16.3V18.3L9.2 17.5L8.7 14Z" fill="white"/><path d="M12 7H16L15.5 11H12V9H14L13.9 11H12V13H15.2L14.8 16L12 16.3V18.3L14.8 17.5L15.3 14H12V7Z" fill="white"/></svg>` },
-  { name: 'CSS3',       svg: `<svg viewBox="0 0 24 24"><path d="M4 3L5.5 19.5L12 21.5L18.5 19.5L20 3H4Z" fill="#1572B6"/><path d="M12 5H18L17 17L12 18.5V5Z" fill="#33A9DC"/><path d="M8 7H15.5L15.2 9H10L10.2 11H15L14.5 15L12 15.8L9.5 15L9.3 13H11.3L11.4 14L12 14.2L12.6 14L12.8 12H9.8L9 7H8Z" fill="white"/><path d="M12 7V9H14.8L14.6 11H12V12H14.5L14.3 14L12 14.2V15.8L14.5 15L15 12H12.5V11H15.2L15.5 9H12V7Z" fill="white"/></svg>` },
-  { name: 'JavaScript', svg: `<svg viewBox="0 0 24 24"><rect width="24" height="24" rx="2" fill="#F7DF1E"/><path d="M7 17.5C7.4 18.2 7.9 18.7 8.9 18.7C9.8 18.7 10.4 18.2 10.4 17.5C10.4 16.6 9.8 16.3 8.9 15.9L8.4 15.7C6.9 15.1 6 14.3 6 12.7C6 11.2 7.1 10 8.8 10C10.1 10 11 10.6 11.5 11.5L10.2 12.4C9.9 11.9 9.6 11.6 8.8 11.6C8 11.6 7.5 12.1 7.5 12.7C7.5 13.5 8 13.7 8.9 14.1L9.4 14.3C11.1 15 12 15.8 12 17.4C12 19.2 10.6 20.2 8.8 20.2C7.1 20.2 6 19.3 5.5 18.3L7 17.5ZM13.5 17.3C14 18.2 14.7 18.7 15.8 18.7C16.8 18.7 17.3 18.2 17.3 17.6C17.3 16.8 16.8 16.5 15.8 16.1L15.3 15.9C13.9 15.3 13 14.5 13 12.9C13 11.3 14.2 10.1 15.8 10.1C16.9 10.1 17.8 10.6 18.3 11.5L17 12.4C16.7 11.9 16.4 11.7 15.8 11.7C15.1 11.7 14.7 12.1 14.7 12.9C14.7 13.6 15.1 13.9 16 14.3L16.5 14.5C18.1 15.2 19 15.9 19 17.6C19 19.3 17.7 20.2 15.8 20.2C13.9 20.2 12.7 19.2 12.1 18.1L13.5 17.3Z" fill="#323330"/></svg>` },
-  { name: 'Vue.js',     svg: `<svg viewBox="0 0 24 24"><path d="M12 21.5L1 3.5H5.5L12 14.5L18.5 3.5H23L12 21.5Z" fill="#41B883"/><path d="M12 21.5L7.5 8.5H9.5L12 14.5L14.5 8.5H16.5L12 21.5Z" fill="#35495E"/></svg>` },
-  { name: 'Tailwind',   svg: `<svg viewBox="0 0 24 24"><path d="M12 6C9.6 6 8.1 7.2 7.5 9.6C8.4 8.4 9.45 7.95 10.65 8.25C11.343 8.424 11.838 8.927 12.385 9.482C13.279 10.388 14.316 11.438 16.5 11.438C18.9 11.438 20.4 10.238 21 7.838C20.1 9.038 19.05 9.488 17.85 9.188C17.157 9.014 16.662 8.511 16.115 7.956C15.221 7.05 14.184 6 12 6ZM7.5 11.438C5.1 11.438 3.6 12.638 3 15.038C3.9 13.838 4.95 13.388 6.15 13.688C6.843 13.862 7.338 14.365 7.885 14.92C8.779 15.826 9.816 16.876 12 16.876C14.4 16.876 15.9 15.676 16.5 13.276C15.6 14.476 14.55 14.926 13.35 14.626C12.657 14.452 12.162 13.949 11.615 13.394C10.721 12.488 9.684 11.438 7.5 11.438Z" fill="#06B6D4"/></svg>` },
-  { name: 'PHP',        svg: `<svg viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="10" ry="6" fill="#777BB4"/><path d="M7 10H9.5C10.5 10 11 10.5 11 11.5C11 12.5 10.5 13 9.5 13H8L7.5 15H6L7 10ZM8.2 11L7.9 12H9.3C9.7 12 10 11.8 10 11.4C10 11.1 9.8 11 9.4 11H8.2ZM11.5 10H13C14.5 10 15 10.8 15 11.8C15 13 14.2 14 12.8 14H11.8L11.5 15H10L11.5 10ZM12 11L11.5 13H12.6C13.3 13 14 12.6 14 11.9C14 11.4 13.7 11 13 11H12ZM15.5 10H17L16.8 11H18.2L18 12H16.6L16.3 13.3C16.2 13.7 16.4 14 16.8 14H17.5L17.3 15H16.5C15.5 15 15 14.5 15.2 13.5L15.5 10Z" fill="white"/></svg>` },
-  { name: 'GitHub',     svg: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>` },
+  { name: 'HTML',      img: svgHTML5 },
+  { name: 'CSS',       img: svgCSS3 },
+  { name: 'JavaScript', img: svgJS },
+  { name: 'Vue.js',     img: svgVue },
+  { name: 'Tailwind',   img: svgTailwind },
+  { name: 'PHP',        img: svgPHP },
+  { name: 'GitHub',     img: svgGitHub },
+  { name: 'Flutter',    img: svgFlutter },
 ]
 
 const row2 = [
-  { name: 'Figma',         svg: `<svg viewBox="0 0 24 24"><path d="M8.5 2H12V8H8.5C6.567 8 5 6.433 5 4.5C5 2.567 6.567 2 8.5 2Z" fill="#F24E1E"/><path d="M12 2H15.5C17.433 2 19 3.567 19 5.5C19 7.433 17.433 9 15.5 9H12V2Z" fill="#FF7262"/><path d="M12 9H15.5C17.433 9 19 10.567 19 12.5C19 14.433 17.433 16 15.5 16C13.567 16 12 14.433 12 12.5V9Z" fill="#A259FF"/><path d="M5 12.5C5 10.567 6.567 9 8.5 9H12V16H8.5C6.567 16 5 14.433 5 12.5Z" fill="#1ABCFE"/><path d="M12 16H15.5C17.433 16 19 17.567 19 19.5C19 21.433 17.433 22 15.5 22C13.567 22 12 20.433 12 18.5V16Z" fill="#0ACF83"/></svg>` },
-  { name: 'VS Code',       svg: `<svg viewBox="0 0 24 24"><path d="M17 1.5L8.5 9.5L4 6.5L1.5 7.5V16.5L4 17.5L8.5 14.5L17 22.5L22.5 20V4L17 1.5Z" fill="#007ACC"/><path d="M17 7.5L11.5 12L17 16.5V7.5Z" fill="white"/><path d="M4 8.8L8.5 12L4 15.2V8.8Z" fill="white"/></svg>` },
-  { name: 'Graphic Design',svg: `<svg viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="2.5" fill="#E2C47A"/><circle cx="17.5" cy="10.5" r="2.5" fill="#7f011f"/><circle cx="13.5" cy="14.5" r="2.5" fill="#41B883"/><circle cx="9.5" cy="10.5" r="2.5" fill="#1572B6"/><path d="M4 20h16M4 20l2-4M20 20l-2-4" stroke="#8a7a6e" stroke-width="1.5" stroke-linecap="round"/></svg>` },
-  { name: 'Responsive',    svg: `<svg viewBox="0 0 24 24" fill="none" stroke="#8a7a6e" stroke-width="1.5"><rect x="2" y="4" width="14" height="10" rx="1.5"/><rect x="16" y="7" width="6" height="7" rx="1"/><path d="M5 18h7M8.5 14v4" stroke-linecap="round"/></svg>` },
-  { name: 'UI/UX',         svg: `<svg viewBox="0 0 24 24" fill="none" stroke="#8a7a6e" stroke-width="1.5"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M3 7h18"/><circle cx="6" cy="5" r="0.8" fill="#8a7a6e" stroke="none"/><circle cx="9" cy="5" r="0.8" fill="#8a7a6e" stroke="none"/><circle cx="12" cy="5" r="0.8" fill="#8a7a6e" stroke="none"/><path d="M7 11h4M7 13h6" stroke-linecap="round"/></svg>` },
-  { name: 'HTML5',         svg: `<svg viewBox="0 0 24 24"><path d="M4 3L5.5 19.5L12 21.5L18.5 19.5L20 3H4Z" fill="#E34F26"/><path d="M12 5H18L17 17L12 18.5V5Z" fill="#EF652A"/><path d="M8 7H12V9H10L10.2 11H12V13H8.5L8 7ZM8.7 14H10.7L10.9 16L12 16.3V18.3L9.2 17.5L8.7 14Z" fill="white"/><path d="M12 7H16L15.5 11H12V9H14L13.9 11H12V13H15.2L14.8 16L12 16.3V18.3L14.8 17.5L15.3 14H12V7Z" fill="white"/></svg>` },
-  { name: 'CSS3',          svg: `<svg viewBox="0 0 24 24"><path d="M4 3L5.5 19.5L12 21.5L18.5 19.5L20 3H4Z" fill="#1572B6"/><path d="M12 5H18L17 17L12 18.5V5Z" fill="#33A9DC"/><path d="M8 7H15.5L15.2 9H10L10.2 11H15L14.5 15L12 15.8L9.5 15L9.3 13H11.3L11.4 14L12 14.2L12.6 14L12.8 12H9.8L9 7H8Z" fill="white"/><path d="M12 7V9H14.8L14.6 11H12V12H14.5L14.3 14L12 14.2V15.8L14.5 15L15 12H12.5V11H15.2L15.5 9H12V7Z" fill="white"/></svg>` },
-  { name: 'JavaScript',    svg: `<svg viewBox="0 0 24 24"><rect width="24" height="24" rx="2" fill="#F7DF1E"/><path d="M7 17.5C7.4 18.2 7.9 18.7 8.9 18.7C9.8 18.7 10.4 18.2 10.4 17.5C10.4 16.6 9.8 16.3 8.9 15.9L8.4 15.7C6.9 15.1 6 14.3 6 12.7C6 11.2 7.1 10 8.8 10C10.1 10 11 10.6 11.5 11.5L10.2 12.4C9.9 11.9 9.6 11.6 8.8 11.6C8 11.6 7.5 12.1 7.5 12.7C7.5 13.5 8 13.7 8.9 14.1L9.4 14.3C11.1 15 12 15.8 12 17.4C12 19.2 10.6 20.2 8.8 20.2C7.1 20.2 6 19.3 5.5 18.3L7 17.5ZM13.5 17.3C14 18.2 14.7 18.7 15.8 18.7C16.8 18.7 17.3 18.2 17.3 17.6C17.3 16.8 16.8 16.5 15.8 16.1L15.3 15.9C13.9 15.3 13 14.5 13 12.9C13 11.3 14.2 10.1 15.8 10.1C16.9 10.1 17.8 10.6 18.3 11.5L17 12.4C16.7 11.9 16.4 11.7 15.8 11.7C15.1 11.7 14.7 12.1 14.7 12.9C14.7 13.6 15.1 13.9 16 14.3L16.5 14.5C18.1 15.2 19 15.9 19 17.6C19 19.3 17.7 20.2 15.8 20.2C13.9 20.2 12.7 19.2 12.1 18.1L13.5 17.3Z" fill="#323330"/></svg>` },
+  { name: 'Figma',          img: svgFigma },
+  { name: 'VS Code',        img: svgVSCode },
+  { name: 'Angular',        img: svgAngular },
+  { name: 'Dart',           img: svgDart },
+  { name: 'Graphic Design', img: svgGraphicDesign },
+  { name: 'Responsive',     img: svgResponsive },
+  { name: 'UI/UX',          img: svgUIUX },
+  { name: 'HTML5',          img: svgHTML5 },
 ]
 
 const row3 = [
-  { name: 'Vue.js',     svg: `<svg viewBox="0 0 24 24"><path d="M12 21.5L1 3.5H5.5L12 14.5L18.5 3.5H23L12 21.5Z" fill="#41B883"/><path d="M12 21.5L7.5 8.5H9.5L12 14.5L14.5 8.5H16.5L12 21.5Z" fill="#35495E"/></svg>` },
-  { name: 'Tailwind',   svg: `<svg viewBox="0 0 24 24"><path d="M12 6C9.6 6 8.1 7.2 7.5 9.6C8.4 8.4 9.45 7.95 10.65 8.25C11.343 8.424 11.838 8.927 12.385 9.482C13.279 10.388 14.316 11.438 16.5 11.438C18.9 11.438 20.4 10.238 21 7.838C20.1 9.038 19.05 9.488 17.85 9.188C17.157 9.014 16.662 8.511 16.115 7.956C15.221 7.05 14.184 6 12 6ZM7.5 11.438C5.1 11.438 3.6 12.638 3 15.038C3.9 13.838 4.95 13.388 6.15 13.688C6.843 13.862 7.338 14.365 7.885 14.92C8.779 15.826 9.816 16.876 12 16.876C14.4 16.876 15.9 15.676 16.5 13.276C15.6 14.476 14.55 14.926 13.35 14.626C12.657 14.452 12.162 13.949 11.615 13.394C10.721 12.488 9.684 11.438 7.5 11.438Z" fill="#06B6D4"/></svg>` },
-  { name: 'GitHub',     svg: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>` },
-  { name: 'PHP',        svg: `<svg viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="10" ry="6" fill="#777BB4"/><path d="M7 10H9.5C10.5 10 11 10.5 11 11.5C11 12.5 10.5 13 9.5 13H8L7.5 15H6L7 10ZM8.2 11L7.9 12H9.3C9.7 12 10 11.8 10 11.4C10 11.1 9.8 11 9.4 11H8.2ZM11.5 10H13C14.5 10 15 10.8 15 11.8C15 13 14.2 14 12.8 14H11.8L11.5 15H10L11.5 10ZM12 11L11.5 13H12.6C13.3 13 14 12.6 14 11.9C14 11.4 13.7 11 13 11H12ZM15.5 10H17L16.8 11H18.2L18 12H16.6L16.3 13.3C16.2 13.7 16.4 14 16.8 14H17.5L17.3 15H16.5C15.5 15 15 14.5 15.2 13.5L15.5 10Z" fill="white"/></svg>` },
-  { name: 'Figma',      svg: `<svg viewBox="0 0 24 24"><path d="M8.5 2H12V8H8.5C6.567 8 5 6.433 5 4.5C5 2.567 6.567 2 8.5 2Z" fill="#F24E1E"/><path d="M12 2H15.5C17.433 2 19 3.567 19 5.5C19 7.433 17.433 9 15.5 9H12V2Z" fill="#FF7262"/><path d="M12 9H15.5C17.433 9 19 10.567 19 12.5C19 14.433 17.433 16 15.5 16C13.567 16 12 14.433 12 12.5V9Z" fill="#A259FF"/><path d="M5 12.5C5 10.567 6.567 9 8.5 9H12V16H8.5C6.567 16 5 14.433 5 12.5Z" fill="#1ABCFE"/><path d="M12 16H15.5C17.433 16 19 17.567 19 19.5C19 21.433 17.433 22 15.5 22C13.567 22 12 20.433 12 18.5V16Z" fill="#0ACF83"/></svg>` },
-  { name: 'VS Code',    svg: `<svg viewBox="0 0 24 24"><path d="M17 1.5L8.5 9.5L4 6.5L1.5 7.5V16.5L4 17.5L8.5 14.5L17 22.5L22.5 20V4L17 1.5Z" fill="#007ACC"/><path d="M17 7.5L11.5 12L17 16.5V7.5Z" fill="white"/><path d="M4 8.8L8.5 12L4 15.2V8.8Z" fill="white"/></svg>` },
-  { name: 'Responsive', svg: `<svg viewBox="0 0 24 24" fill="none" stroke="#8a7a6e" stroke-width="1.5"><rect x="2" y="4" width="14" height="10" rx="1.5"/><rect x="16" y="7" width="6" height="7" rx="1"/><path d="M5 18h7M8.5 14v4" stroke-linecap="round"/></svg>` },
-  { name: 'UI/UX',      svg: `<svg viewBox="0 0 24 24" fill="none" stroke="#8a7a6e" stroke-width="1.5"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M3 7h18"/><circle cx="6" cy="5" r="0.8" fill="#8a7a6e" stroke="none"/><circle cx="9" cy="5" r="0.8" fill="#8a7a6e" stroke="none"/><circle cx="12" cy="5" r="0.8" fill="#8a7a6e" stroke="none"/><path d="M7 11h4M7 13h6" stroke-linecap="round"/></svg>` },
+  { name: 'CSS',       img: svgCSS3 },
+  { name: 'JavaScript', img: svgJS },
+  { name: 'Vue.js',     img: svgVue },
+  { name: 'Tailwind',   img: svgTailwind },
+  { name: 'Flutter',    img: svgFlutter },
+  { name: 'Angular',    img: svgAngular },
+  { name: 'Dart',       img: svgDart },
+  { name: 'GitHub',     img: svgGitHub },
 ]
 
 onMounted(() => {
@@ -425,7 +449,6 @@ onMounted(() => {
   flex-direction: column;
   gap: 0;
   margin-bottom: 44px;
-  /* Edge fade masks so it bleeds off screen cleanly */
   mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
   -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
 }
@@ -433,7 +456,6 @@ onMounted(() => {
 .marquee-row {
   overflow: hidden;
   padding: 6px 0;
-  /* Pause marquee when user hovers */
 }
 .marquee-row:hover .marquee-track { animation-play-state: paused; }
 
@@ -443,24 +465,14 @@ onMounted(() => {
   width: max-content;
 }
 
-/* Left scroll: items move from right to left */
-.marquee-left {
-  animation: scrollLeft 28s linear infinite;
-}
-/* Right scroll: items move from left to right */
-.marquee-right {
-  animation: scrollRight 32s linear infinite;
-}
-/* Slower third row */
-.marquee-slow {
-  animation-duration: 40s;
-}
+.marquee-left  { animation: scrollLeft 28s linear infinite; }
+.marquee-right { animation: scrollRight 32s linear infinite; }
+.marquee-slow  { animation-duration: 40s; }
 
 @keyframes scrollLeft {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
-
 @keyframes scrollRight {
   0%   { transform: translateX(-50%); }
   100% { transform: translateX(0); }
@@ -481,7 +493,6 @@ onMounted(() => {
   transition: background 0.22s ease, border-color 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
   box-shadow: 0 1px 4px rgba(61,43,31,0.06);
 }
-
 .marquee-item:hover {
   background: #fff;
   border-color: rgba(127,1,31,0.25);
@@ -494,7 +505,16 @@ onMounted(() => {
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
-.marquee-icon svg { width: 100%; height: 100%; display: block; }
+
+/* size both <img> and inline <svg> inside .marquee-icon */
+.marquee-icon img,
+.marquee-icon svg {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
+}
 
 .marquee-name {
   font-family: var(--font-sans);
@@ -505,7 +525,6 @@ onMounted(() => {
   color: var(--stone);
   transition: color 0.22s ease;
 }
-
 .marquee-item:hover .marquee-name { color: var(--bark); }
 
 /* ═══════════════════════════ CERTIFICATIONS ═══════════════════════════ */
@@ -637,7 +656,8 @@ onMounted(() => {
   .section-header, .tech-sub, .certs-section { padding-left: 20px; padding-right: 20px; }
   .marquee-item { padding: 8px 14px; }
   .marquee-name { font-size: 8px; }
-  .marquee-icon { width: 18px; height: 18px; }
+  .marquee-icon,
+  .marquee-icon svg { width: 18px; height: 18px; }
 }
 
 @keyframes floatCardMobile {
