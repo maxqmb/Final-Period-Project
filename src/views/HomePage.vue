@@ -37,7 +37,7 @@
     </section>
 
     <!-- ── FEATURED PROJECTS ── -->
-    <section class="projects-section" aria-label="Featured Projects">
+    <section class="projects-section" :class="{ light: isLight }" aria-label="Featured Projects">
 
       <div class="projects-header">
         <div class="projects-eyebrow">
@@ -51,26 +51,54 @@
 
       <div class="projects-grid">
 
-        <div class="project-card" :class="{ 'in-view': card1Visible }" ref="card1">
-          <div class="project-card-inner">
+        <!-- SplitSmart -->
+        <div class="project-card" :class="{ 'in-view': card1Visible }" ref="card1"
+          @mousemove="onCardTilt($event, 'card1')"
+          @mouseleave="onCardReset('card1')"
+        >
+          <div class="project-card-inner" ref="card1Inner">
+            <!-- Shimmer sweep border -->
+            <div class="card-shimmer" aria-hidden="true"></div>
+
             <div class="project-visual">
+              <!-- Diagonal reveal wash -->
+              <div class="visual-wash" aria-hidden="true"></div>
               <div class="project-img-container">
-                <img src="/assets/splitsmart-preview.jpg" alt="SplitSmart project screenshot" class="project-screenshot" onerror="this.style.display='none';this.nextElementSibling.style.removeProperty('display')" />
+                <img
+                  src="/assets/projects/splitsmart1.png"
+                  alt="SplitSmart project screenshot"
+                  class="project-screenshot"
+                  onerror="this.style.display='none';this.nextElementSibling.style.removeProperty('display')"
+                />
                 <div class="project-img-placeholder">
                   <span class="placeholder-icon">⬜</span>
-                  <span class="placeholder-text">splitsmart-preview.jpg</span>
+                  <span class="placeholder-text">splitsmart1.png</span>
                 </div>
                 <div class="project-img-overlay">
+                  <div class="overlay-tags">
+                    <span class="overlay-tag">Node.js</span>
+                    <span class="overlay-tag">Express.js</span>
+                  </div>
                   <span class="overlay-label">SplitSmart</span>
                 </div>
               </div>
             </div>
+
             <div class="project-info">
+              <div class="card-accent-lines" aria-hidden="true">
+                <span class="accent-line accent-line--gold"></span>
+                <span class="accent-line accent-line--crimson"></span>
+              </div>
               <div class="project-number" aria-hidden="true">01</div>
+              <div class="project-meta">
+                <span class="project-meta-type">Web App</span>
+                <span class="project-meta-dot" aria-hidden="true"></span>
+                <span class="project-meta-year">2024</span>
+              </div>
               <h3 class="project-title">SplitSmart</h3>
               <p class="project-desc">A web application designed to help friends and families split bills easily and accurately, simplifying shared expenses for groups.</p>
               <div class="project-actions">
-                <router-link to="/projects" class="project-btn">
+                <router-link to="/projects#project-2" class="project-btn">
                   <span>View Project</span>
                   <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </router-link>
@@ -79,27 +107,54 @@
           </div>
         </div>
 
-        <div class="project-card project-card--alt" :class="{ 'in-view': card2Visible }" ref="card2">
-          <div class="project-card-inner">
+        <!-- Non Ta Mangan -->
+        <div class="project-card project-card--alt" :class="{ 'in-view': card2Visible }" ref="card2"
+          @mousemove="onCardTilt($event, 'card2')"
+          @mouseleave="onCardReset('card2')"
+        >
+          <div class="project-card-inner" ref="card2Inner">
+            <div class="card-shimmer" aria-hidden="true"></div>
+
             <div class="project-info">
+              <div class="card-accent-lines" aria-hidden="true">
+                <span class="accent-line accent-line--crimson"></span>
+                <span class="accent-line accent-line--gold"></span>
+              </div>
               <div class="project-number" aria-hidden="true">02</div>
+              <div class="project-meta">
+                <span class="project-meta-type">Food Platform</span>
+                <span class="project-meta-dot" aria-hidden="true"></span>
+                <span class="project-meta-year">2024</span>
+              </div>
               <h3 class="project-title">Non Ta Mangan</h3>
               <p class="project-desc">A food discovery platform that lets users search food types, read reviews, and use a spin-the-wheel feature for indecisive diners.</p>
               <div class="project-actions">
-                <router-link to="/projects" class="project-btn">
+                <router-link to="/projects#project-3" class="project-btn">
                   <span>View Project</span>
                   <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </router-link>
               </div>
             </div>
+
             <div class="project-visual">
+              <div class="visual-wash" aria-hidden="true"></div>
               <div class="project-img-container">
-                <img src="/assets/nontamangan-preview.jpg" alt="Non Ta Mangan project screenshot" class="project-screenshot" onerror="this.style.display='none';this.nextElementSibling.style.removeProperty('display')" />
+                <img
+                  src="/assets/projects/nontamangan1.png"
+                  alt="Non Ta Mangan project screenshot"
+                  class="project-screenshot"
+                  onerror="this.style.display='none';this.nextElementSibling.style.removeProperty('display')"
+                />
                 <div class="project-img-placeholder">
                   <span class="placeholder-icon">⬜</span>
-                  <span class="placeholder-text">nontamangan-preview.jpg</span>
+                  <span class="placeholder-text">nontamangan1.png</span>
                 </div>
                 <div class="project-img-overlay">
+                  <div class="overlay-tags">
+                    <span class="overlay-tag">PHP</span>
+                    <span class="overlay-tag">MySQL</span>
+                    <span class="overlay-tag">JavaScript</span>
+                  </div>
                   <span class="overlay-label">Non Ta Mangan</span>
                 </div>
               </div>
@@ -127,20 +182,37 @@ import { ref, onMounted, onUnmounted } from 'vue'
 const heroCanvas = ref(null)
 const card1 = ref(null)
 const card2 = ref(null)
+const card1Inner = ref(null)
+const card2Inner = ref(null)
 const card1Visible = ref(false)
 const card2Visible = ref(false)
+const isLight = ref(false)
 let animId = null
+let themeObserver = null
 
-/* ─────────────────────────────────────────
-   Read current theme from <html> attribute
-───────────────────────────────────────── */
+function onCardTilt(e, cardRef) {
+  const inner = cardRef === 'card1' ? card1Inner.value : card2Inner.value
+  if (!inner) return
+  const rect = inner.getBoundingClientRect()
+  const x = (e.clientX - rect.left) / rect.width  - 0.5
+  const y = (e.clientY - rect.top)  / rect.height - 0.5
+  inner.style.transform = `perspective(1000px) rotateY(${x * 6}deg) rotateX(${-y * 4}deg) scale3d(1.015,1.015,1.015)`
+}
+
+function onCardReset(cardRef) {
+  const inner = cardRef === 'card1' ? card1Inner.value : card2Inner.value
+  if (!inner) return
+  inner.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) scale3d(1,1,1)'
+}
+
 function isDarkMode() {
   return document.documentElement.getAttribute('data-theme') === 'dark'
 }
 
-/* ─────────────────────────────────────────
-   CANVAS — same animation, theme-aware colors
-───────────────────────────────────────── */
+function checkTheme() {
+  isLight.value = document.documentElement.getAttribute('data-theme') !== 'dark'
+}
+
 function initCanvas() {
   const canvas = heroCanvas.value
   if (!canvas) return
@@ -179,18 +251,15 @@ function initCanvas() {
     t++
     const dark = isDarkMode()
 
-    /* ── Base background ── */
     if (dark) {
       ctx.fillStyle = '#3d000e'
     } else {
-      /* Light mode: slightly lighter crimson, same family as dark mode */
       ctx.fillStyle = '#5a0018'
     }
     ctx.fillRect(0, 0, W, H)
 
     const time = t * 0.003
 
-    /* ── Waves — same shape, lighter colors in light mode ── */
     for (let i = 0; i < 5; i++) {
       const yBase = H * (0.2 + i * 0.18)
       const amp   = H * (0.08 + i * 0.03)
@@ -198,7 +267,7 @@ function initCanvas() {
       const phase = time * (0.4 + i * 0.15) + i * 1.2
       const alpha = dark
         ? (0.06 + i * 0.012)
-        : (0.08 + i * 0.015)  /* slightly more visible in light */
+        : (0.08 + i * 0.015)
 
       ctx.beginPath()
       ctx.moveTo(0, H)
@@ -236,7 +305,6 @@ function initCanvas() {
       ctx.fill()
     }
 
-    /* ── Orbs ── */
     orbs.forEach(o => {
       o.phase += o.speed
       o.x += o.vx + Math.sin(o.phase) * 0.0003
@@ -266,7 +334,6 @@ function initCanvas() {
       ctx.fill()
     })
 
-    /* ── Particles ── */
     particles.forEach(p => {
       p.life += 0.0025
       p.x += p.vx
@@ -276,32 +343,21 @@ function initCanvas() {
         p.vx = (Math.random() - 0.5) * 0.00006
         p.vy = -0.00004 - Math.random() * 0.00009
       }
-
       const fade = Math.sin(p.life * Math.PI)
-
-      if (dark) {
-        ctx.fillStyle = `rgba(226,196,122,${p.opacity * fade})`
-      } else {
-        ctx.fillStyle = `rgba(226,196,122,${p.opacity * fade})`
-      }
-
+      ctx.fillStyle = `rgba(226,196,122,${p.opacity * fade})`
       ctx.beginPath()
       ctx.arc(p.x * W, p.y * H, p.size, 0, Math.PI * 2)
       ctx.fill()
     })
 
-    /* ── Vignette ── */
     const vig = ctx.createRadialGradient(W/2, H/2, H * 0.1, W/2, H/2, W * 0.85)
-
     if (dark) {
       vig.addColorStop(0, 'rgba(0,0,0,0)')
       vig.addColorStop(1, 'rgba(20,0,5,0.72)')
     } else {
-      /* Light: strong dark vignette so cream text stays readable */
       vig.addColorStop(0, 'rgba(0,0,0,0)')
       vig.addColorStop(1, 'rgba(10,0,0,0.65)')
     }
-
     ctx.fillStyle = vig
     ctx.fillRect(0, 0, W, H)
 
@@ -323,12 +379,16 @@ function initScrollObserver() {
 }
 
 onMounted(() => {
+  checkTheme()
+  themeObserver = new MutationObserver(checkTheme)
+  themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
   initCanvas()
   setTimeout(initScrollObserver, 100)
 })
 
 onUnmounted(() => {
   cancelAnimationFrame(animId)
+  if (themeObserver) themeObserver.disconnect()
 })
 </script>
 
@@ -350,7 +410,6 @@ onUnmounted(() => {
   z-index: 1; flex: 1; min-height: 100vh;
 }
 
-
 .home-left-content {
   position: relative; z-index: 2;
   display: flex; flex-direction: column;
@@ -359,13 +418,7 @@ onUnmounted(() => {
   height: 100%; width: 100%;
 }
 
-/* Light mode: canvas is still dark so cream text stays readable */
-/* Only the eyebrow pill border lightens slightly */
-:global([data-theme="light"]) .home-eyebrow-wrap {
-  background: rgba(245,235,208,0.10);
-  border-color: rgba(245,235,208,0.22);
-}
-
+/* hero eyebrow always on dark canvas - no light override needed */
 
 .home-name {
   font-family: var(--font-upright);
@@ -379,17 +432,12 @@ onUnmounted(() => {
   overflow: visible;
 }
 
-/* Light mode: name is dark brown (on light canvas) */
 @keyframes revealUp {
   from { opacity: 0; transform: translateY(40px) skewY(2deg); }
   to   { opacity: 1; transform: translateY(0) skewY(0deg); }
 }
 
-.i-special {
-  position: relative;
-  display: inline-block;
-  overflow: visible;
-}
+.i-special { position: relative; display: inline-block; overflow: visible; }
 
 .i-star {
   position: absolute;
@@ -405,12 +453,9 @@ onUnmounted(() => {
 }
 .i-star svg { width: 100%; height: 100%; display: block; }
 
-@keyframes iStarSpin   { from { transform: translateX(-50%) rotate(0deg);   } to { transform: translateX(-50%) rotate(360deg); } }
+@keyframes iStarSpin   { from { transform: translateX(-50%) rotate(0deg); } to { transform: translateX(-50%) rotate(360deg); } }
 @keyframes iStarBounce { 0%,100% { margin-top:0; } 50% { margin-top:-0.07em; } }
 
-/* ─────────────────────────────
-   TAGLINE
-───────────────────────────── */
 .home-title {
   font-family: var(--font-display);
   font-size: clamp(15px, 1.7vw, 19px);
@@ -422,9 +467,6 @@ onUnmounted(() => {
   max-width: 520px;
 }
 
-/* ─────────────────────────────
-   PROFESSION PILL
-───────────────────────────── */
 .home-eyebrow-wrap {
   display: inline-flex; align-items: center; gap: 10px;
   background: rgba(245,235,208,0.07);
@@ -455,9 +497,6 @@ onUnmounted(() => {
   color: rgba(245,235,208,0.85); margin: 0;
 }
 
-/* ─────────────────────────────
-   CTA BUTTONS
-───────────────────────────── */
 .home-cta-row {
   display: flex; align-items: center; justify-content: center; gap: 14px;
   opacity: 0; animation: fadeUp 0.8s ease 0.88s forwards;
@@ -483,8 +522,7 @@ onUnmounted(() => {
   transition: transform 0.38s cubic-bezier(0.16,1,0.3,1);
 }
 
-.btn-primary-label,
-.btn-primary-arrow { position: relative; z-index: 1; }
+.btn-primary-label, .btn-primary-arrow { position: relative; z-index: 1; }
 .btn-primary-arrow { transition: transform 0.28s ease; flex-shrink: 0; }
 .btn-primary:hover { color: var(--cream); border-color: rgba(245,235,208,0.18); }
 .btn-primary:hover .btn-primary-bg { transform: translateX(0); }
@@ -528,19 +566,30 @@ onUnmounted(() => {
   background: var(--charcoal);
   padding: 96px 80px 112px;
   position: relative; overflow: hidden;
+  transition: background 0.3s ease;
 }
 
-/* Light mode projects section */
+/* Light mode — actual background color change, no overlay */
+.projects-section.light {
+  background: var(--warm-white);
+}
+
 .projects-section::before {
   content: '';
   position: absolute; inset: 0;
+  pointer-events: none;
   background-image:
     radial-gradient(ellipse 50% 60% at 10% 20%, rgba(127,1,31,0.10) 0%, transparent 60%),
     radial-gradient(ellipse 40% 50% at 90% 80%, rgba(201,168,76,0.06) 0%, transparent 55%);
-  pointer-events: none;
 }
 
-/* Header */
+.projects-section.light::before {
+  background-image:
+    radial-gradient(ellipse 55% 65% at 8% 15%, rgba(127,1,31,0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 45% 55% at 92% 85%, rgba(201,168,76,0.04) 0%, transparent 55%);
+}
+
+/* ── Header ── */
 .projects-header { text-align: center; margin-bottom: 72px; position: relative; z-index: 1; }
 
 .projects-eyebrow {
@@ -549,33 +598,39 @@ onUnmounted(() => {
   letter-spacing: 0.35em; text-transform: uppercase;
   color: rgba(201,168,76,0.7); margin-bottom: 20px;
 }
+.projects-section.light .projects-eyebrow { color: rgba(127,1,31,0.65); }
 
 .projects-eyebrow-line { display: block; width: 32px; height: 1px; background: rgba(201,168,76,0.4); }
+.projects-section.light .projects-eyebrow-line { background: rgba(127,1,31,0.25); }
 
 .projects-heading {
   font-family: var(--font-upright);
   font-size: clamp(36px, 4.5vw, 58px); font-weight: 300;
   color: var(--cream); line-height: 1.1; margin-bottom: 14px;
 }
+.projects-section.light .projects-heading { color: var(--bark); }
 
 .projects-heading em { font-style: italic; color: var(--crimson); filter: brightness(1.4); }
+.projects-section.light .projects-heading em { filter: none; }
 
 .projects-subhead {
   font-family: var(--font-display); font-size: 15px; font-style: italic;
   color: rgba(245,235,208,0.4); letter-spacing: 0.02em;
 }
+.projects-section.light .projects-subhead { color: var(--stone); }
 
-/* Grid */
+/* ── Grid ── */
 .projects-grid {
   display: flex; flex-direction: column; gap: 28px;
   position: relative; z-index: 1;
   max-width: 1100px; margin: 0 auto;
 }
 
-/* Card */
+/* ── Card ── */
 .project-card {
   opacity: 0; transform: translateY(40px);
   transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
+  perspective: 1000px;
 }
 .project-card.in-view { opacity: 1; transform: translateY(0); }
 .project-card--alt { transition-delay: 0.14s; }
@@ -585,26 +640,128 @@ onUnmounted(() => {
   border: 1px solid rgba(245,235,208,0.07);
   border-radius: 20px; overflow: hidden;
   background: rgba(245,235,208,0.025);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  transition: border-color 0.3s ease, box-shadow 0.45s ease, transform 0.18s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.projects-section.light .project-card-inner {
+  border: 1px solid rgba(127,1,31,0.09);
+  background: rgba(255,255,255,0.7);
+  box-shadow: 0 2px 14px rgba(61,43,31,0.06);
 }
 
 .project-card:hover .project-card-inner {
-  border-color: rgba(245,235,208,0.13);
-  box-shadow: 0 24px 64px rgba(0,0,0,0.45), 0 0 0 1px rgba(201,168,76,0.07);
+  border-color: rgba(201,168,76,0.22);
+  box-shadow:
+    0 32px 72px rgba(0,0,0,0.5),
+    0 0 0 1px rgba(201,168,76,0.12),
+    0 0 60px rgba(127,1,31,0.12) inset;
+}
+.projects-section.light .project-card:hover .project-card-inner {
+  border-color: rgba(127,1,31,0.28);
+  box-shadow:
+    0 20px 56px rgba(61,43,31,0.16),
+    0 0 0 1px rgba(127,1,31,0.1),
+    0 0 40px rgba(127,1,31,0.04) inset;
 }
 
-/* Image panel */
-.project-visual { position: relative; overflow: hidden; min-height: 360px; background: #0a0404; }
+/* ── Shimmer sweep across border on hover ── */
+.card-shimmer {
+  position: absolute; inset: 0;
+  border-radius: 20px;
+  pointer-events: none; z-index: 10;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(201,168,76,0.08) 48%,
+    rgba(245,235,208,0.14) 50%,
+    rgba(201,168,76,0.08) 52%,
+    transparent 70%
+  );
+  background-size: 250% 100%;
+  background-position: 200% 0;
+  transition: background-position 0s;
+  opacity: 0;
+}
+.project-card:hover .card-shimmer {
+  opacity: 1;
+  background-position: -50% 0;
+  transition: background-position 0.65s ease, opacity 0.2s ease;
+}
 
+/* ── Diagonal wash that retracts on hover, revealing the image ── */
+.visual-wash {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: linear-gradient(135deg, rgba(12,3,3,0.55) 0%, transparent 65%);
+  transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1);
+}
+.project-card:hover .visual-wash { opacity: 0; }
+
+/* ── Accent lines — animated bars on the left edge of info panel ── */
+.card-accent-lines {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.accent-line {
+  display: block; width: 100%;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.accent-line--gold   { flex: 1; background: var(--gold); opacity: 0.6; transition-delay: 0s; }
+.accent-line--crimson { flex: 1; background: var(--crimson); opacity: 0.8; transition-delay: 0.08s; }
+.project-card:hover .accent-line { transform: scaleY(1); }
+
+/* ── Meta row (type + year) ── */
+.project-meta {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-sans); font-size: 7.5px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(245,235,208,0.35);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease 0.05s, transform 0.4s ease 0.05s;
+}
+.projects-section.light .project-meta { color: rgba(61,43,31,0.4); }
+.project-card:hover .project-meta { opacity: 1; transform: translateY(0); }
+
+.project-meta-dot {
+  width: 3px; height: 3px; border-radius: 50%;
+  background: var(--gold); opacity: 0.6; flex-shrink: 0;
+}
+
+/* ── Image panel ── */
+.project-visual { position: relative; overflow: hidden; min-height: 360px; background: #0a0404; }
 .project-img-container { position: absolute; inset: 0; }
 
 .project-screenshot {
   width: 100%; height: 100%;
   object-fit: cover; object-position: top center;
   display: block;
-  transition: transform 0.65s cubic-bezier(0.16,1,0.3,1);
+  transition: transform 0.65s cubic-bezier(0.16,1,0.3,1), filter 0.55s ease;
+  filter: brightness(0.88) saturate(0.9);
 }
-.project-card:hover .project-screenshot { transform: scale(1.05); }
+.project-card:hover .project-screenshot {
+  transform: scale(1.05);
+  filter: brightness(1) saturate(1.05);
+}
+
+/* Non Ta Mangan */
+.project-card--alt .project-screenshot {
+  object-fit: contain;
+  object-position: center top;
+  background: #6b1020;
+  transform-origin: center top;
+  filter: brightness(0.9) saturate(0.9);
+}
+.project-card--alt:hover .project-screenshot {
+  transform: scale(1.02);
+  filter: brightness(1) saturate(1.05);
+}
 
 .project-img-placeholder {
   display: none; position: absolute; inset: 0;
@@ -617,44 +774,95 @@ onUnmounted(() => {
   text-transform: uppercase; color: rgba(245,235,208,0.2);
 }
 
+/* ── Overlay: now shows tags + title ── */
 .project-img-overlay {
   position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(12,4,4,0.8) 0%, transparent 50%);
-  opacity: 0; transition: opacity 0.35s ease;
-  display: flex; align-items: flex-end; padding: 24px;
+  background: linear-gradient(to top, rgba(10,2,2,0.88) 0%, rgba(10,2,2,0.2) 55%, transparent 100%);
+  opacity: 0; transition: opacity 0.4s ease;
+  display: flex; flex-direction: column;
+  align-items: flex-start; justify-content: flex-end;
+  padding: 24px;
+  gap: 10px;
 }
 .project-card:hover .project-img-overlay { opacity: 1; }
 
-.overlay-label {
-  font-family: var(--font-upright); font-size: 20px; font-weight: 300;
-  color: var(--cream); letter-spacing: 0.02em;
+.overlay-tags {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  transform: translateY(10px);
+  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1) 0.05s;
+}
+.project-card:hover .overlay-tags { transform: translateY(0); }
+
+.overlay-tag {
+  font-family: var(--font-sans); font-size: 7px;
+  font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(245,235,208,0.85);
+  background: rgba(127,1,31,0.55);
+  border: 1px solid rgba(201,168,76,0.2);
+  padding: 3px 9px; border-radius: 2px;
+  backdrop-filter: blur(4px);
 }
 
-/* Info panel */
+.overlay-label {
+  font-family: var(--font-upright); font-size: 22px; font-weight: 300;
+  color: var(--cream); letter-spacing: 0.02em;
+  transform: translateY(8px);
+  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1) 0.1s;
+}
+.project-card:hover .overlay-label { transform: translateY(0); }
+
+/* ── Info panel ── */
 .project-info {
   padding: 52px 48px;
-  display: flex; flex-direction: column; justify-content: center; gap: 18px;
+  display: flex; flex-direction: column; justify-content: center; gap: 16px;
   position: relative;
+  overflow: hidden;
 }
+
+/* Subtle radial glow in corner on hover */
+.project-info::after {
+  content: '';
+  position: absolute; bottom: -60px; right: -60px;
+  width: 180px; height: 180px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(127,1,31,0.12) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+.project-card:hover .project-info::after { opacity: 1; }
 
 .project-number {
   font-family: var(--font-upright); font-size: 88px; font-weight: 300;
   color: rgba(245,235,208,0.035); line-height: 1;
   user-select: none; position: absolute; top: 18px; right: 30px;
+  transition: color 0.4s ease, transform 0.4s ease;
 }
+.project-card:hover .project-number {
+  color: rgba(201,168,76,0.07);
+  transform: translateX(-6px) scale(1.04);
+}
+.projects-section.light .project-number { color: rgba(127,1,31,0.05); }
+.projects-section.light .project-card:hover .project-number { color: rgba(127,1,31,0.09); }
 
 .project-title {
   font-family: var(--font-upright);
   font-size: clamp(28px, 3vw, 40px); font-weight: 300;
   color: var(--cream); line-height: 1.1; margin: 0;
+  transition: letter-spacing 0.4s ease;
 }
+.project-card:hover .project-title { letter-spacing: 0.01em; }
+.projects-section.light .project-title { color: var(--bark); }
 
 .project-desc {
   font-family: var(--font-display); font-size: 14.5px; line-height: 1.78;
   color: rgba(245,235,208,0.5); max-width: 360px;
+  transition: color 0.3s ease;
 }
+.project-card:hover .project-desc { color: rgba(245,235,208,0.7); }
+.projects-section.light .project-desc { color: var(--stone); }
+.projects-section.light .project-card:hover .project-desc { color: var(--bark); }
 
-.project-actions { margin-top: 6px; }
+.project-actions { margin-top: 8px; }
 
 .project-btn {
   display: inline-flex; align-items: center; gap: 10px;
@@ -663,14 +871,31 @@ onUnmounted(() => {
   color: var(--cream); text-decoration: none;
   padding-bottom: 4px;
   border-bottom: 1px solid rgba(245,235,208,0.2);
-  transition: all 0.25s ease;
+  transition: all 0.28s ease;
+  position: relative;
 }
+/* Underline grows from left on hover */
+.project-btn::after {
+  content: '';
+  position: absolute; bottom: -1px; left: 0;
+  width: 0; height: 1px;
+  background: var(--gold);
+  transition: width 0.32s cubic-bezier(0.16,1,0.3,1);
+}
+.project-btn:hover::after { width: 100%; }
 
-.project-btn:hover { color: var(--gold); border-bottom-color: rgba(201,168,76,0.5); gap: 15px; }
-.project-btn svg { transition: transform 0.25s ease; }
-.project-btn:hover svg { transform: translateX(4px); }
+.projects-section.light .project-btn {
+  color: var(--crimson);
+  border-bottom-color: rgba(127,1,31,0.2);
+}
+.projects-section.light .project-btn::after { background: var(--crimson); }
 
-/* CTA */
+.project-btn:hover { color: var(--gold); border-bottom-color: transparent; gap: 15px; }
+.projects-section.light .project-btn:hover { color: var(--bark); border-bottom-color: transparent; }
+.project-btn svg { transition: transform 0.28s ease; }
+.project-btn:hover svg { transform: translateX(5px); }
+
+/* ── CTA ── */
 .projects-cta { text-align: center; margin-top: 64px; position: relative; z-index: 1; }
 
 .projects-cta-btn {
@@ -682,10 +907,18 @@ onUnmounted(() => {
   border-radius: 3px;
   transition: all 0.3s ease; backdrop-filter: blur(4px);
 }
+.projects-section.light .projects-cta-btn {
+  color: var(--stone);
+  border-color: rgba(127,1,31,0.18);
+}
 
 .projects-cta-btn:hover {
   color: var(--cream); border-color: rgba(245,235,208,0.38);
   background: rgba(245,235,208,0.05); gap: 16px;
+}
+.projects-section.light .projects-cta-btn:hover {
+  color: var(--bark); border-color: rgba(127,1,31,0.4);
+  background: rgba(127,1,31,0.04);
 }
 
 .projects-cta-btn svg { transition: transform 0.25s ease; }

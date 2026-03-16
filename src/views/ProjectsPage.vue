@@ -28,6 +28,7 @@
         class="project-entry"
         v-for="(proj, i) in projects"
         :key="proj.id"
+        :id="'project-' + proj.id"
         :aria-label="'Project: ' + proj.name"
         ref="projectEntries"
       >
@@ -47,6 +48,11 @@
               <p>{{ proj.features }}</p>
             </div>
 
+            <div class="project-role">
+              <div class="role-label">Role & Contributions</div>
+              <p class="role-text">{{ proj.role }}</p>
+            </div>
+
             <div class="project-tech">
               <div class="tech-label">Stack</div>
               <div class="tag-row">
@@ -62,7 +68,7 @@
                 </span>
                 <span class="btn-hover-fill"></span>
               </a>
-              <a :href="proj.github" class="link-btn link-btn-secondary" target="_blank" rel="noopener">
+              <a v-if="proj.github" :href="proj.github" class="link-btn link-btn-secondary" target="_blank" rel="noopener">
                 <span class="btn-inner">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.929.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
                   GitHub
@@ -74,9 +80,9 @@
 
           <div class="project-screenshots">
             <div class="screenshot screenshot-main" @mouseenter="onSsHover" @mouseleave="onSsLeave">
-              <img v-if="proj.id === 1" src="/assets/projects/buffs-chicken1.png" alt="Buffs Chicken preview" class="screenshot-img screenshot-img--main" />
+              <img v-if="proj.img1" :src="proj.img1" :alt="proj.name + ' preview'" class="screenshot-img screenshot-img--main" />
               <div class="screenshot-shimmer"></div>
-              <span class="screenshot-label" v-if="proj.id !== 1">Preview</span>
+              <span class="screenshot-label" v-if="!proj.img1">Preview</span>
               <span class="screenshot-corner tl"></span>
               <span class="screenshot-corner tr"></span>
               <span class="screenshot-corner bl"></span>
@@ -84,14 +90,14 @@
             </div>
             <div class="screenshot-sub-row">
               <div class="screenshot screenshot-sub" @mouseenter="onSsHover" @mouseleave="onSsLeave">
-                <img v-if="proj.id === 1" src="/assets/projects/buffs-chicken2.png" alt="Buffs Chicken detail" class="screenshot-img screenshot-img--sub" />
+                <img v-if="proj.img2" :src="proj.img2" :alt="proj.name + ' detail'" class="screenshot-img screenshot-img--sub" />
                 <div class="screenshot-shimmer"></div>
-                <span class="screenshot-label" v-if="proj.id !== 1">Detail</span>
+                <span class="screenshot-label" v-if="!proj.img2">Detail</span>
               </div>
               <div class="screenshot screenshot-sub" @mouseenter="onSsHover" @mouseleave="onSsLeave">
-                <img v-if="proj.id === 1" src="/assets/projects/buffs-chicken3.png" alt="Buffs Chicken mobile" class="screenshot-img screenshot-img--sub" />
+                <img v-if="proj.img3" :src="proj.img3" :alt="proj.name + ' mobile'" class="screenshot-img screenshot-img--sub" />
                 <div class="screenshot-shimmer"></div>
-                <span class="screenshot-label" v-if="proj.id !== 1">Mobile</span>
+                <span class="screenshot-label" v-if="!proj.img3">Mobile</span>
               </div>
             </div>
           </div>
@@ -109,32 +115,69 @@ let animFrame = null
 
 const projects = [
   {
-    id: 1, name: 'Buffs Chicken',
+    id: 1,
+    name: 'Buffs Chicken',
     desc: 'A full-featured ordering and business website for Buffs Chicken, a local restaurant brand. Customers can browse the menu, place orders, and explore the brand story — all in one seamless experience.',
     features: "Includes an interactive menu with category filters, an online ordering flow, business information pages, and a mobile-responsive layout built to reflect the restaurant's bold identity.",
-    tags: ['HTML', 'CSS', 'JavaScript', 'Tailwind'],
-    demo: '#', github: '#',
+    role: 'Served as the blog creator and content manager for the project. Responsible for writing, structuring, and publishing all blog content on the site, ensuring the tone and messaging aligned with the restaurant\'s brand identity. Also handled on-page SEO maintenance — optimizing meta descriptions, headings, and content structure to improve search visibility and keep the site ranking consistently.',
+    tags: ['Vue', 'Nuxt', 'Express.js'],
+    demo: 'https://buffschicken.com/',
+    github: null,
+    img1: '/assets/projects/buffs-chicken1.png',
+    img2: '/assets/projects/buffs-chicken2.png',
+    img3: '/assets/projects/buffs-chicken3.png',
   },
   {
-    id: 2, name: 'SplitSmart',
+    id: 2,
+    name: 'SplitSmart',
     desc: 'A web application designed to help friends and families split bills easily and accurately.',
     features: 'Features include group creation, itemized bill splitting, equal and custom splits, and a summary view.',
-    tags: ['HTML', 'CSS', 'JavaScript', 'Tailwind'],
-    demo: '#', github: '#',
+    role: 'Contributed to the project as a UI designer and frontend collaborator. Created the wireframes that defined the layout and user flow, and actively participated in UI decision-making to ensure the interface was intuitive and visually consistent throughout the application.',
+    tags: ['Node.js', 'Express.js'],
+    demo: null,
+    github: 'https://github.com/chrztyn/6WCSERVER-Final-Project.git',
+    img1: '/assets/projects/splitsmart1.png',
+    img2: '/assets/projects/splitsmart2.png',
+    img3: '/assets/projects/splitsmart3.png',
   },
   {
-    id: 3, name: 'Non Ta Mangan',
+    id: 3,
+    name: 'Non Ta Mangan',
     desc: 'A food discovery platform that allows users to search for specific food types, read reviews, and use a spin-the-wheel feature.',
     features: 'Includes category browsing, user-submitted reviews, and a randomizer wheel powered by vanilla JavaScript.',
-    tags: ['HTML', 'CSS', 'JavaScript'],
-    demo: '#', github: '#',
+    role: 'Took on a support role focused on the design side — crafting wireframes to map out the platform\'s structure and contributing to UI decisions to ensure a clean, user-friendly experience. Helped shape how the interface communicated the food discovery concept visually.',
+    tags: ['PHP', 'MySQL', 'JavaScript'],
+    demo: 'http://nontamangan.mywebcommunity.org/',
+    github: null,
+    img1: '/assets/projects/nontamangan1.png',
+    img2: '/assets/projects/nontamangan2.png',
+    img3: '/assets/projects/nontamangan3.png',
   },
   {
-    id: 4, name: 'Muza De Cafe',
+    id: 4,
+    name: 'Muza De Cafe',
     desc: 'A promotional website for a local café in Concepcion, Tarlac, showcasing the menu, best sellers, and hours.',
     features: 'A clean, warm-themed static website with full menu showcase, location map embed, and mobile-responsive layout.',
+    role: 'Solely responsible for the entire front-end execution of the project. Handled all styling decisions, built the layout from the ground up, and ensured visual consistency across every page — from typography and color choices to spacing and component design — so the site faithfully represented the café\'s warm, inviting atmosphere.',
     tags: ['HTML', 'CSS', 'JavaScript'],
-    demo: null, github: '#',
+    demo: 'https://muzadecafe.vercel.app/',
+    github: null,
+    img1: '/assets/projects/muzadecafe1.png',
+    img2: '/assets/projects/muzadecafe2.png',
+    img3: '/assets/projects/muzadecafe3.png',
+  },
+  {
+    id: 5,
+    name: 'SplitSmart App',
+    desc: 'A cross-platform mobile application for tracking group expenses, delivering a smooth and native feel on both iOS and Android.',
+    features: 'Built with Flutter and Dart for a performant UI experience, and powered by Supabase for real-time data sync and user authentication — making expense tracking seamless across devices.',
+    role: 'Responsible for coding the application\'s various screens, translating design concepts into functional Flutter widgets. Focused on both the visual accuracy of the UI and the quality of the user experience, ensuring each screen was intuitive, consistent, and pleasant to interact with.',
+    tags: ['Flutter', 'Dart', 'Supabase'],
+    demo: null,
+    github: 'https://github.com/chrztyn/6ADET-SplitSmart-App.git',
+    img1: '/assets/projects/splitsmart-app1.png',
+    img2: '/assets/projects/splitsmart-app2.png',
+    img3: '/assets/projects/splitsmart-app3.png',
   },
 ]
 
@@ -145,43 +188,36 @@ function onSsLeave(e) {
   e.currentTarget.querySelector('.screenshot-shimmer').style.opacity = '0'
 }
 
-// ─── SOFT BREATHING GRADIENT ─────────────────────────────────────────────────
-// Three large radial blobs slowly drift and pulse. Each blob moves on its own
-// sine/cosine path with independent timing so they never feel repetitive.
-// Colors stay within the brand palette so nothing looks out of place.
-// The whole thing is calm enough to never fight with the content.
-// ─────────────────────────────────────────────────────────────────────────────
 function initCanvas() {
   const canvas = heroCanvas.value
   if (!canvas) return
   const ctx = canvas.getContext('2d')
   let W, H, t = 0
 
-  // Blobs: anchor (% of canvas), drift radius (% of canvas), color, alpha range, timing
   const blobs = [
     {
-      ax: 0.80, ay: 0.90,       // anchor: bottom-right
-      dx: 0.12, dy: 0.10,       // drift range
-      rFactor: 0.60,            // radius as fraction of min(W,H)
-      color: [127, 1, 31],      // brand crimson
+      ax: 0.80, ay: 0.90,
+      dx: 0.12, dy: 0.10,
+      rFactor: 0.60,
+      color: [127, 1, 31],
       minA: 0.14, maxA: 0.24,
       phaseOffset: 0,
       speed: 0.00042,
     },
     {
-      ax: 0.15, ay: 0.18,       // anchor: top-left
+      ax: 0.15, ay: 0.18,
       dx: 0.09, dy: 0.11,
       rFactor: 0.50,
-      color: [155, 50, 12],     // burnt amber
+      color: [155, 50, 12],
       minA: 0.07, maxA: 0.15,
       phaseOffset: Math.PI * 0.75,
       speed: 0.00036,
     },
     {
-      ax: 0.50, ay: 0.00,       // anchor: top-center (bleeds off edge)
+      ax: 0.50, ay: 0.00,
       dx: 0.16, dy: 0.07,
       rFactor: 0.38,
-      color: [185, 120, 40],    // warm gold
+      color: [185, 120, 40],
       minA: 0.04, maxA: 0.10,
       phaseOffset: Math.PI * 1.5,
       speed: 0.00055,
@@ -195,24 +231,16 @@ function initCanvas() {
 
   function drawBlob(b) {
     const phase = t * b.speed + b.phaseOffset
-
-    // Position: two independent sine waves per axis for organic drift
     const x = (b.ax + Math.sin(phase)        * b.dx) * W
     const y = (b.ay + Math.cos(phase * 0.71) * b.dy) * H
-
-    // Radius breathes very gently
     const r = b.rFactor * Math.min(W, H) * (1 + Math.sin(phase * 1.2) * 0.06)
-
-    // Alpha breathes between min and max on a slightly different cycle
     const aPhase = (Math.sin(phase * 0.85 + 0.4) + 1) / 2
     const alpha  = b.minA + aPhase * (b.maxA - b.minA)
-
     const [rv, gv, bv] = b.color
     const grad = ctx.createRadialGradient(x, y, 0, x, y, r)
     grad.addColorStop(0,   `rgba(${rv},${gv},${bv},${alpha.toFixed(3)})`)
     grad.addColorStop(0.45,`rgba(${rv},${gv},${bv},${(alpha * 0.45).toFixed(3)})`)
     grad.addColorStop(1,   `rgba(${rv},${gv},${bv},0)`)
-
     ctx.beginPath()
     ctx.arc(x, y, r, 0, Math.PI * 2)
     ctx.fillStyle = grad
@@ -243,6 +271,16 @@ onMounted(() => {
   document.querySelectorAll('.project-entry').forEach(el => observer.observe(el))
 
   initCanvas()
+
+  // Scroll to hash anchor after a short delay so page renders first
+  if (window.location.hash) {
+    setTimeout(() => {
+      const el = document.querySelector(window.location.hash)
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
+    }, 350)
+  }
 })
 
 onBeforeUnmount(() => {
@@ -280,7 +318,6 @@ onBeforeUnmount(() => {
   display: block;
 }
 
-/* Edge vignette keeps the blobs contained and the section grounded */
 .hero-vignette {
   position: absolute;
   inset: 0;
@@ -446,6 +483,25 @@ onBeforeUnmount(() => {
 .project-desc p { margin-bottom: 12px; }
 .project-desc p:last-child { margin-bottom: 0; }
 
+/* ─── ROLE SECTION ────────────────────────────────────────── */
+.project-role { display: flex; flex-direction: column; gap: 8px; }
+
+.role-label {
+  font-family: var(--font-sans);
+  font-size: 8px;
+  font-weight: 300;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--crimson);
+}
+
+.role-text {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--stone);
+}
+
+/* ─── TECH ────────────────────────────────────────────────── */
 .project-tech { display: flex; flex-direction: column; gap: 10px; }
 
 .tech-label {
@@ -564,8 +620,23 @@ onBeforeUnmount(() => {
   transition: transform 0.35s ease;
 }
 
-.screenshot-img--main { object-position: right top; }
-.screenshot-img--sub  { object-position: right center; }
+.screenshot-img--main { object-position: center top; }
+.screenshot-img--sub  { object-position: center center; }
+
+/* Non Ta Mangan (3rd project) — use contain so full UI is visible */
+.project-entry:nth-child(3) .screenshot-main .screenshot-img,
+.project-entry:nth-child(3) .screenshot-sub .screenshot-img {
+  object-fit: contain;
+  object-position: center top;
+  background: #7f011f;
+}
+
+/* Muza De Cafe (4th project) — zoom out main screenshot */
+.project-entry:nth-child(4) .screenshot-main .screenshot-img {
+  object-fit: contain;
+  object-position: center top;
+  background: #f5f0e8;
+}
 .screenshot:hover .screenshot-img { transform: scale(1.03); }
 
 .screenshot-shimmer {
