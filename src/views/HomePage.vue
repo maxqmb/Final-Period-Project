@@ -15,7 +15,6 @@
           <p class="home-title">Crafting digital experiences with precision &amp; heart.</p>
 
           <div class="home-eyebrow-wrap">
-            <span class="eyebrow-dot" aria-hidden="true"></span>
             <p class="home-eyebrow">Frontend Developer &amp; UI/UX Designer</p>
           </div>
 
@@ -472,22 +471,10 @@ onUnmounted(() => {
   background: rgba(245,235,208,0.07);
   border: 1px solid rgba(245,235,208,0.15);
   border-radius: 100px;
-  padding: 8px 18px 8px 12px;
+  padding: 8px 18px;
   margin-bottom: 44px;
   opacity: 0; animation: fadeUp 0.7s ease 0.72s forwards;
   backdrop-filter: blur(6px);
-}
-
-.eyebrow-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--gold);
-  box-shadow: 0 0 8px rgba(201,168,76,0.9);
-  animation: dotPulse 2s ease-in-out infinite;
-  flex-shrink: 0;
-}
-@keyframes dotPulse {
-  0%,100% { transform:scale(1); box-shadow:0 0 6px rgba(201,168,76,0.8); }
-  50%      { transform:scale(1.3); box-shadow:0 0 14px rgba(201,168,76,1); }
 }
 
 .home-eyebrow {
@@ -946,9 +933,161 @@ onUnmounted(() => {
 @media (max-width: 420px) {
   .home-name { font-size: clamp(22px, 8vw, 42px); white-space: nowrap; }
   .home-eyebrow { font-size: 7.5px; letter-spacing: 0.18em; }
-  .home-eyebrow-wrap { padding: 7px 12px 7px 10px; }
+  .home-eyebrow-wrap { padding: 7px 12px; }
 }
 @media (max-width: 360px) {
   .home-name { font-size: 7.8vw; white-space: nowrap; }
 }
+
+/* ==========================================
+   HOMEPAGE - UNIFIED PILL BUTTON STYLING
+========================================== */
+
+/* Hero CTA alignment */
+.home-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: center;
+  gap: 14px;
+}
+
+/* View Portfolio and About Me */
+.btn-primary,
+.btn-ghost {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  width: 250px;
+  min-height: 54px;
+  padding: 16px 28px;
+
+  border-radius: 9999px;
+  line-height: 1.4;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Keep the primary hover animation inside the pill */
+.btn-primary-bg {
+  border-radius: inherit;
+}
+
+/* Project card buttons */
+.project-btn {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  min-height: 44px;
+  padding: 12px 24px;
+
+  border: 1px solid rgba(245, 235, 208, 0.24);
+  border-radius: 9999px;
+
+  text-align: center;
+  text-decoration: none;
+  background: transparent;
+  transition:
+    color 0.28s ease,
+    border-color 0.28s ease,
+    background 0.28s ease,
+    gap 0.28s ease;
+}
+
+/* Remove the original underline animation */
+.project-btn::after {
+  display: none;
+}
+
+/* Project button hover - dark mode */
+.project-btn:hover {
+  border-color: var(--gold);
+  background: rgba(201, 168, 76, 0.08);
+  color: var(--gold);
+  gap: 10px;
+}
+
+/* Project button - light mode */
+.projects-section.light .project-btn {
+  color: var(--crimson);
+  border-color: rgba(127, 1, 31, 0.25);
+}
+
+/* Project button hover - light mode */
+.projects-section.light .project-btn:hover {
+  color: var(--crimson);
+  border-color: var(--crimson);
+  background: rgba(127, 1, 31, 0.05);
+}
+
+/* View All Projects */
+.projects-cta-btn {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  min-height: 54px;
+  padding: 16px 32px;
+
+  border-radius: 9999px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+/* Maintain spacing on hover */
+.projects-cta-btn:hover {
+  gap: 12px;
+}
+
+/* ==========================================
+   RESPONSIVE PILL BUTTONS
+========================================== */
+
+@media (max-width: 768px) {
+  .home-cta-row {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 320px;
+    gap: 12px;
+  }
+
+  .btn-primary,
+  .btn-ghost {
+    width: 100%;
+    min-height: 54px;
+    justify-content: center;
+  }
+
+  .project-btn {
+    min-height: 44px;
+    padding: 12px 22px;
+  }
+
+  .projects-cta-btn {
+    min-height: 54px;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .btn-primary,
+  .btn-ghost {
+    padding: 16px 20px;
+    font-size: 8px;
+  }
+
+  .projects-cta-btn {
+    padding: 15px 24px;
+  }
+}
+
 </style>

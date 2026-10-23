@@ -9,96 +9,16 @@
           A designer who <em class="tagline-italic tagline-crimson">codes.</em><br>
           A developer who thinks in <em class="tagline-italic tagline-gold">pixels.</em>
         </p>
-        <div class="hero-scroll-hint">
-          <div class="hero-scroll-line"></div>
-          <span class="hero-scroll-text">Scroll to explore</span>
-          <div class="hero-scroll-line"></div>
-        </div>
       </div>
 
       <div class="about-photo-wrapper" role="img" aria-label="Photo of Maxene Quiambao">
         <div class="photo-glow" aria-hidden="true"></div>
 
-        <!-- Photo box stays as before -->
         <div class="about-photo-box">
           <img src="/assets/maxene.jpg" alt="Maxene Quiambao" class="photo-img" onerror="this.style.display='none'" />
           <div class="photo-overlay-gradient"></div>
           <div class="photo-corner photo-corner--tl"></div>
           <div class="photo-corner photo-corner--br"></div>
-        </div>
-
-        <!-- ── Orbital ring decoration ── -->
-        <div class="orbital-ring" aria-hidden="true">
-          <svg class="orbital-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-            <!-- Outer dashed ring -->
-            <circle cx="150" cy="150" r="138"
-              fill="none"
-              stroke="rgba(201,168,76,0.18)"
-              stroke-width="1"
-              stroke-dasharray="4 8"
-              class="ring-outer"
-            />
-            <!-- Inner dashed ring -->
-            <circle cx="150" cy="150" r="108"
-              fill="none"
-              stroke="rgba(127,1,31,0.22)"
-              stroke-width="0.8"
-              stroke-dasharray="2 14"
-              class="ring-inner"
-            />
-
-            <!-- Orbiting gold dot with trail -->
-            <g class="orbit-dot-group">
-              <circle cx="150" cy="12" r="3.5" fill="rgba(201,168,76,0.85)" class="orbit-dot" />
-              <!-- Trailing arc behind the dot -->
-              <path d="M 150 12 A 138 138 0 0 0 43 43"
-                fill="none"
-                stroke="rgba(201,168,76,0.25)"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                class="orbit-trail"
-              />
-            </g>
-
-            <!-- Orbiting crimson dot (opposite phase) -->
-            <g class="orbit-dot-group-2">
-              <circle cx="150" cy="288" r="2.5" fill="rgba(127,1,31,0.75)" class="orbit-dot-2" />
-            </g>
-
-            <!-- Tick marks around outer ring -->
-            <g stroke="rgba(201,168,76,0.3)" stroke-width="1" class="tick-marks">
-              <line x1="150" y1="14" x2="150" y2="22" />
-              <line x1="150" y1="278" x2="150" y2="286" />
-              <line x1="14" y1="150" x2="22" y2="150" />
-              <line x1="278" y1="150" x2="286" y2="150" />
-              <line x1="47" y1="47" x2="53" y2="53" />
-              <line x1="247" y1="47" x2="253" y2="53" />
-              <line x1="47" y1="253" x2="53" y2="247" />
-              <line x1="247" y1="253" x2="253" y2="247" />
-            </g>
-
-            <!-- Cross-hair center marks (very subtle) -->
-            <line x1="144" y1="150" x2="156" y2="150" stroke="rgba(201,168,76,0.15)" stroke-width="0.5" />
-            <line x1="150" y1="144" x2="150" y2="156" stroke="rgba(201,168,76,0.15)" stroke-width="0.5" />
-          </svg>
-        </div>
-
-        <!-- ── Vertical etched name strip ── -->
-        <div class="photo-name-strip" aria-hidden="true">
-          <span class="name-strip-text">MAXENE QUIAMBAO</span>
-          <span class="name-strip-line"></span>
-          <span class="name-strip-role">UI/UX · FRONTEND</span>
-        </div>
-
-        <!-- ── Floating stat pills ── -->
-        <div class="stat-pill stat-pill--projects" aria-hidden="true">
-          <span class="stat-num">5+</span>
-          <span class="stat-label">Projects</span>
-        </div>
-
-        <div class="stat-pill stat-pill--certs" aria-hidden="true">
-          <span class="stat-num">10+</span>
-          <span class="stat-label">Certs</span>
         </div>
       </div>
 
@@ -168,7 +88,7 @@
         </div>
 
         <div class="certs-section">
-          <div class="section-header" style="margin-bottom: 6px;">
+          <div class="section-header">
             <h2 class="section-title">Certifications</h2>
             <div class="section-line" aria-hidden="true"></div>
           </div>
@@ -253,13 +173,30 @@ function next() { if (activeIndex.value < certs.value.length - 1) activeIndex.va
 function prev() { if (activeIndex.value > 0) activeIndex.value-- }
 function goTo(i) { activeIndex.value = i }
 
+// ── 3D sticker icon builder (crimson / gold theme) ──
+const stickerTones = {
+  crimson: { top: '#d61f48', mid: '#a3022a', bot: '#7f011f', edge: '#4a0012', glyph: '#FBF3DC', shadow: 'rgba(40,0,10,0.45)',     dy: 1.1 },
+  gold:    { top: '#f3df98', mid: '#d3b45a', bot: '#b08d35', edge: '#8a6a1f', glyph: '#5a0018', shadow: 'rgba(255,248,225,0.6)', dy: 0.9 },
+}
+function sticker(id, tone, glyph) {
+  const t = stickerTones[tone]
+  const g = (color, dy) => `<g transform="translate(13.2 ${12.4 + dy}) scale(0.9)" color="${color}" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${glyph}</g>`
+  return `<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="${id}-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${t.top}"/><stop offset="0.5" stop-color="${t.mid}"/><stop offset="1" stop-color="${t.bot}"/></linearGradient><clipPath id="${id}-c"><rect x="6" y="6" width="36" height="35" rx="10"/></clipPath></defs><rect x="2" y="2.5" width="44" height="44" rx="13" fill="#FBF3DC" stroke="rgba(90,0,24,0.2)" stroke-width="0.8"/><rect x="6" y="8.5" width="36" height="35" rx="10" fill="${t.edge}"/><rect x="6" y="6" width="36" height="35" rx="10" fill="url(#${id}-g)"/><g clip-path="url(#${id}-c)"><ellipse cx="18" cy="12" rx="14" ry="6" fill="#fff" opacity="0.22" transform="rotate(-14 18 12)"/></g><rect x="6.6" y="6.6" width="34.8" height="33.8" rx="9.4" fill="none" stroke="#fff" stroke-opacity="0.28" stroke-width="1"/>${g(t.shadow, t.dy)}${g(t.glyph, 0)}</svg>`
+}
+
 const qualities = [
-  { title: 'UI/UX Design',             desc: 'Designing intuitive, user-focused interfaces with strong visual balance and clarity.',        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M3 7h18M8 21h8M12 17v4" stroke-linecap="round"/><circle cx="8.5" cy="11.5" r="1.2" fill="currentColor" stroke="none" opacity="0.6"/><path d="M12 10h4M12 13h3" stroke-linecap="round"/></svg>` },
-  { title: 'Frontend Development',     desc: 'Building responsive, clean, and functional interfaces from design to code.',                 svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 13l2 2-2 2M13 17h3" stroke-linecap="round" stroke-linejoin="round"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18" stroke-linecap="round"/></svg>` },
-  { title: 'Figma & Prototyping',      desc: 'Creating wireframes and prototypes to refine ideas and ensure design consistency.',          svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="8" y="2" width="8" height="6" rx="2"/><rect x="3" y="9" width="8" height="6" rx="2"/><rect x="13" y="9" width="8" height="6" rx="2"/><rect x="8" y="16" width="8" height="6" rx="2"/><path d="M12 8v1M7 15h1M17 15h-1M12 22v-6" stroke-linecap="round"/></svg>` },
-  { title: 'Attention to Detail',      desc: 'Delivering polished, high-quality work with consistency across designs and layouts.',        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35" stroke-linecap="round"/><path d="M11 8v3l2 2" stroke-linecap="round"/></svg>` },
-  { title: 'Problem Solving',          desc: 'Approaching design and development challenges with practical, user-focused solutions.',       svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke-linecap="round" stroke-linejoin="round"/></svg>` },
-  { title: 'Collaboration & Teamwork', desc: 'Working effectively with teams by clearly presenting ideas and incorporating feedback.',       svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20c0-3.314 3.134-6 7-6s7 2.686 7 6" stroke-linecap="round"/><path d="M17 13c2.21 0 4 1.567 4 3.5" stroke-linecap="round"/></svg>` },
+  { title: 'UI/UX Design',             desc: 'Designing intuitive, user-focused interfaces with strong visual balance and clarity.',
+    svg: sticker('sk-uiux', 'crimson', `<rect x="3" y="3" width="18" height="14" rx="2"/><path d="M3 7h18M8 21h8M12 17v4"/><path d="M12 10h4M12 13h3"/><circle cx="8" cy="11.5" r="1.1" fill="currentColor" stroke="none"/>`) },
+  { title: 'Frontend Development',     desc: 'Building responsive, clean, and functional interfaces from design to code.',
+    svg: sticker('sk-fe', 'gold', `<path d="M9 13l2 2-2 2M13 17h3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/>`) },
+  { title: 'Figma & Prototyping',      desc: 'Creating wireframes and prototypes to refine ideas and ensure design consistency.',
+    svg: sticker('sk-fig', 'gold', `<rect x="8" y="2" width="8" height="6" rx="2"/><rect x="3" y="9" width="8" height="6" rx="2"/><rect x="13" y="9" width="8" height="6" rx="2"/><rect x="8" y="16" width="8" height="6" rx="2"/><path d="M12 8v1M7 15h1M17 15h-1M12 22v-6"/>`) },
+  { title: 'Attention to Detail',      desc: 'Delivering polished, high-quality work with consistency across designs and layouts.',
+    svg: sticker('sk-det', 'crimson', `<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v3l2 2"/>`) },
+  { title: 'Problem Solving',          desc: 'Approaching design and development challenges with practical, user-focused solutions.',
+    svg: sticker('sk-prob', 'crimson', `<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="currentColor"/>`) },
+  { title: 'Collaboration & Teamwork', desc: 'Working effectively with teams by clearly presenting ideas and incorporating feedback.',
+    svg: sticker('sk-col', 'gold', `<circle cx="9" cy="7" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20c0-3.314 3.134-6 7-6s7 2.686 7 6"/><path d="M17 13c2.21 0 4 1.567 4 3.5"/>`) },
 ]
 
 const svgJS       = `<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h256v256H0V0z" fill="#F7DF1E"/><path d="M67.312 213.932l19.59-11.856c3.78 6.701 7.218 12.371 15.465 12.371 7.905 0 12.89-3.092 12.89-15.12v-81.798h24.057v82.138c0 24.917-14.606 36.259-35.916 36.259-19.245 0-30.416-9.967-36.087-21.996M152.381 211.354l19.588-11.341c5.157 8.421 11.859 14.607 23.715 14.607 9.969 0 16.325-4.984 16.325-11.858 0-8.248-6.53-11.17-17.528-15.98l-6.013-2.58c-17.357-7.387-28.87-16.667-28.87-36.257 0-18.044 13.747-31.792 35.228-31.792 15.294 0 26.292 5.328 34.196 19.247L210.29 147.43c-4.125-7.389-8.591-10.31-15.465-10.31-7.046 0-11.514 4.468-11.514 10.31 0 7.217 4.468 10.14 14.778 14.608l6.014 2.577c20.45 8.765 31.963 17.7 31.963 37.804 0 21.654-17.012 33.51-39.867 33.51-22.339 0-36.774-10.654-43.819-24.574" fill="#323330"/></svg>`
@@ -352,9 +289,6 @@ onMounted(() => {
 .tagline-italic  { font-style: italic; font-weight: 700; }
 .tagline-crimson { color: #ff2a4f; }
 .tagline-gold    { color: var(--gold); }
-.hero-scroll-hint { display: flex; align-items: center; gap: 12px; opacity: 0.3; }
-.hero-scroll-line { flex: 1; max-width: 40px; height: 1px; background: var(--cream); }
-.hero-scroll-text { font-family: var(--font-sans); font-size: 8px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--cream); }
 
 /* ═══════════════════════════ PHOTO WRAPPER ═══════════════════════════ */
 .about-photo-wrapper {
@@ -369,11 +303,7 @@ onMounted(() => {
   position: absolute; inset: -28px;
   background: radial-gradient(ellipse 75% 65% at 50% 55%, rgba(127,1,31,0.4) 0%, transparent 70%);
   filter: blur(36px); pointer-events: none;
-  animation: glowPulse 5s ease-in-out infinite;
-}
-@keyframes glowPulse {
-  0%, 100% { opacity: 0.65; transform: scale(1); }
-  50%       { opacity: 1;    transform: scale(1.06); }
+  opacity: 0.8;
 }
 
 /* ═══════════════════════════ PHOTO BOX ═══════════════════════════ */
@@ -389,166 +319,6 @@ onMounted(() => {
 .photo-corner { position: absolute; width: 18px; height: 18px; pointer-events: none; }
 .photo-corner--tl { top: 10px; left: 10px; border-top: 1.5px solid rgba(201,168,76,0.65); border-left: 1.5px solid rgba(201,168,76,0.65); }
 .photo-corner--br { bottom: 10px; right: 10px; border-bottom: 1.5px solid rgba(201,168,76,0.65); border-right: 1.5px solid rgba(201,168,76,0.65); }
-
-/* ═══════════════════════════ ORBITAL RING ═══════════════════════════ */
-.orbital-ring {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 300px;
-  height: 300px;
-  pointer-events: none;
-  z-index: 2;
-}
-.orbital-svg {
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-/* Outer ring rotates slowly clockwise */
-.ring-outer {
-  transform-origin: 150px 150px;
-  animation: ringRotateCW 28s linear infinite;
-}
-/* Inner ring counter-clockwise, slightly faster */
-.ring-inner {
-  transform-origin: 150px 150px;
-  animation: ringRotateCCW 18s linear infinite;
-}
-
-/* Gold orbiting dot — full 360° rotation around the outer ring center */
-.orbit-dot-group {
-  transform-origin: 150px 150px;
-  animation: orbitCW 9s linear infinite;
-}
-/* Crimson dot — opposite phase, slightly different speed */
-.orbit-dot-group-2 {
-  transform-origin: 150px 150px;
-  animation: orbitCCW 13s linear infinite;
-}
-/* Tick marks stay fixed */
-.tick-marks {
-  transform-origin: 150px 150px;
-}
-
-@keyframes ringRotateCW  { to { transform: rotate(360deg); } }
-@keyframes ringRotateCCW { to { transform: rotate(-360deg); } }
-@keyframes orbitCW       { to { transform: rotate(360deg); } }
-@keyframes orbitCCW      { to { transform: rotate(-360deg); } }
-
-/* Fade the trail in/out as it orbits (pulse via opacity) */
-.orbit-trail {
-  animation: trailFade 9s linear infinite;
-}
-@keyframes trailFade {
-  0%, 100% { opacity: 0.15; }
-  25%       { opacity: 0.45; }
-  50%       { opacity: 0.15; }
-}
-
-/* ═══════════════════════════ NAME STRIP ═══════════════════════════ */
-/* Runs vertically along the right edge of the photo */
-.photo-name-strip {
-  position: absolute;
-  right: -38px;
-  top: 0;
-  bottom: 0;
-  width: 28px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  z-index: 3;
-}
-.name-strip-text {
-  font-family: var(--font-sans);
-  font-size: 7px;
-  font-weight: 300;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: rgba(245,235,208,0.35);
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  white-space: nowrap;
-  /* Animate: characters appear one by one via clip */
-  animation: stripReveal 1.4s cubic-bezier(0.22,0.68,0,1.2) 0.4s both;
-}
-.name-strip-line {
-  display: block;
-  width: 1px;
-  height: 40px;
-  background: linear-gradient(to bottom, transparent, rgba(201,168,76,0.35), transparent);
-  flex-shrink: 0;
-}
-.name-strip-role {
-  font-family: var(--font-sans);
-  font-size: 6px;
-  font-weight: 300;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: rgba(201,168,76,0.28);
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  white-space: nowrap;
-  animation: stripReveal 1.4s cubic-bezier(0.22,0.68,0,1.2) 0.7s both;
-}
-@keyframes stripReveal {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ═══════════════════════════ STAT PILLS ═══════════════════════════ */
-/* Two small floating data chips that anchor to corners of the photo */
-.stat-pill {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1px;
-  background: rgba(10,5,3,0.88);
-  border: 1px solid rgba(201,168,76,0.18);
-  border-radius: 6px;
-  padding: 7px 12px;
-  backdrop-filter: blur(10px);
-  z-index: 4;
-}
-
-.stat-pill--projects {
-  bottom: -14px;
-  left: -48px;
-  animation: pillFloat 7s ease-in-out infinite;
-}
-.stat-pill--certs {
-  top: -14px;
-  left: -44px;
-  animation: pillFloat 7s ease-in-out 3.5s infinite;
-}
-
-@keyframes pillFloat {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-6px); }
-}
-
-.stat-num {
-  font-family: var(--font-upright);
-  font-size: 18px;
-  font-weight: 400;
-  color: rgba(201,168,76,0.9);
-  line-height: 1;
-  letter-spacing: -0.02em;
-}
-.stat-label {
-  font-family: var(--font-sans);
-  font-size: 6px;
-  font-weight: 300;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(245,235,208,0.35);
-  white-space: nowrap;
-}
 
 /* ═══════════════════════════ STORY ═══════════════════════════ */
 .about-story { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
@@ -569,10 +339,10 @@ onMounted(() => {
 .skill-card:hover { border-color: rgba(127,1,31,0.2); box-shadow: 0 8px 28px rgba(127,1,31,0.1); transform: translateY(-3px) !important; }
 .skill-card-num { position: absolute; top: 8px; right: 12px; font-family: var(--font-upright); font-size: 38px; font-weight: 300; color: rgba(127,1,31,0.055); line-height: 1; user-select: none; }
 .skill-card:hover .skill-card-num { color: rgba(127,1,31,0.1); }
-.skill-card-header { display: flex; align-items: center; gap: 10px; }
-.skill-card-icon { width: 32px; height: 32px; background: rgba(127,1,31,0.06); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--crimson); transition: background 0.25s ease; }
-.skill-card:hover .skill-card-icon { background: rgba(127,1,31,0.11); }
-.skill-card-icon svg { width: 16px; height: 16px; }
+.skill-card-header { display: flex; align-items: center; gap: 12px; }
+.skill-card-icon { width: 46px; height: 46px; flex-shrink: 0; filter: drop-shadow(0 3px 3px rgba(61,43,31,0.22)); transition: transform 0.3s ease; }
+.skill-card:hover .skill-card-icon { transform: translateY(-2px) scale(1.06); }
+.skill-card-icon svg { width: 100%; height: 100%; display: block; }
 .skill-card-title { font-family: var(--font-sans); font-size: 9px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--bark); line-height: 1.2; }
 .skill-card-desc { font-family: var(--font-display); font-size: 12px; line-height: 1.6; color: var(--stone); }
 .skill-card-shimmer { position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, var(--crimson) 0%, var(--gold) 50%, var(--crimson) 100%); background-size: 200% 100%; transform: scaleX(0); transform-origin: left; transition: transform 0.32s ease; animation: shimmerMove 2s linear infinite; animation-play-state: paused; }
@@ -604,6 +374,7 @@ onMounted(() => {
 
 /* CERTIFICATIONS */
 .certs-section { flex: 1; padding: 0 56px; }
+.certs-section .section-header, .certs-section .tech-sub { padding-left: 0; padding-right: 0; }
 .cert-slider { position: relative; border: 1px solid rgba(127,1,31,0.12); border-radius: 14px; overflow: hidden; background: var(--warm-white); box-shadow: 0 4px 24px rgba(61,43,31,0.07); }
 .cert-track { display: flex; transition: transform 0.52s cubic-bezier(0.33,1,0.68,1); will-change: transform; }
 .cert-slide { min-width: 100%; display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; }
@@ -647,11 +418,7 @@ onMounted(() => {
   .about-hero { grid-template-columns: 1fr; padding: 56px 24px 96px; gap: 48px; justify-items: center; }
   .about-hero-text { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 24px; text-align: center; }
   .about-tagline { font-size: clamp(22px, 6vw, 32px); }
-  .hero-scroll-hint { justify-content: center; }
   .about-photo-wrapper { margin: 0 auto; }
-  .photo-name-strip { right: -34px; }
-  .stat-pill--projects { bottom: -14px; left: -42px; }
-  .stat-pill--certs    { top: -14px;    left: -38px; }
   .about-story { grid-template-columns: 1fr; }
   .about-story-left  { padding: 48px 24px; }
   .about-story-right { padding: 48px 0 56px; }
@@ -666,7 +433,6 @@ onMounted(() => {
   .about-hero { padding: 48px 20px 96px; gap: 40px; }
   .about-photo-box { width: 200px; height: 260px; }
   .about-photo-wrapper { width: 200px; height: 260px; }
-  .orbital-ring { width: 240px; height: 240px; }
   .about-tagline { font-size: clamp(20px, 7vw, 26px); }
   .skills-card-grid { grid-template-columns: 1fr; }
   .cert-img-wrap { min-height: 190px; }
